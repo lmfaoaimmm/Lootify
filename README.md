@@ -46,7 +46,7 @@ Lootify uses Discord as its backend system:
 
 ## 🌐 Live Site
 
-Add your live link here once deployed:
+https://lmfaoaimmm.github.io/Lootify/
 ** 
 
 
