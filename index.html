@@ -578,6 +578,204 @@
       font-size: 0.95rem;
     }
 
+    .chatbot {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 100;
+    }
+
+    .chatbot-toggle {
+      width: 64px;
+      height: 64px;
+      border: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #5865F2, #7b85ff);
+      color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(88, 101, 242, 0.34);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+    }
+
+    .chatbot-toggle:hover {
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.08);
+      box-shadow: 0 24px 46px rgba(88, 101, 242, 0.4);
+    }
+
+    .chatbot-toggle svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .chatbot-panel {
+      position: absolute;
+      right: 0;
+      bottom: 82px;
+      width: min(380px, calc(100vw - 28px));
+      max-height: min(620px, calc(100vh - 120px));
+      background:
+        radial-gradient(circle at top right, rgba(88, 101, 242, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+        #11151d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    .chatbot.open .chatbot-panel {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 18px 16px;
+      background: rgba(88, 101, 242, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .chatbot-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chatbot-title-mark {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #5865F2;
+      box-shadow: 0 0 0 7px rgba(88, 101, 242, 0.18);
+    }
+
+    .chatbot-title h3 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .chatbot-title p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .chatbot-close {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .chatbot-close:hover {
+      background: rgba(255, 255, 255, 0.09);
+      transform: scale(1.04);
+    }
+
+    .chatbot-body {
+      display: flex;
+      flex-direction: column;
+      height: min(520px, calc(100vh - 190px));
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .chatbot-message {
+      max-width: 88%;
+      padding: 12px 14px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+      animation: chat-message-in 0.22s ease;
+      white-space: pre-line;
+    }
+
+    .chatbot-message.bot {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+
+    .chatbot-message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #5865F2, #6974ff);
+      color: #ffffff;
+    }
+
+    .chatbot-message.typing {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .chatbot-options {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .chatbot-option {
+      width: 100%;
+      border: 1px solid rgba(88, 101, 242, 0.28);
+      border-radius: 14px;
+      background: rgba(88, 101, 242, 0.09);
+      color: #eef0ff;
+      text-align: left;
+      padding: 13px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .chatbot-option:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: rgba(88, 101, 242, 0.16);
+      border-color: rgba(123, 133, 255, 0.5);
+    }
+
+    .chatbot-option:disabled {
+      cursor: not-allowed;
+      opacity: 0.48;
+    }
+
+    @keyframes chat-message-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .reveal {
       opacity: 0;
       transform: translateY(18px);
@@ -656,6 +854,21 @@
 
       .cta-box {
         padding: 28px 20px;
+      }
+
+      .chatbot {
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .chatbot-panel {
+        bottom: 76px;
+        width: min(100vw - 20px, 380px);
+      }
+
+      .chatbot-toggle {
+        width: 58px;
+        height: 58px;
       }
     }
 
@@ -945,6 +1158,34 @@
     <div class="container">Lootify © 2026 • Gaming services made simple.</div>
   </footer>
 
+  <div class="chatbot" id="chatbot">
+    <div class="chatbot-panel" id="chatbotPanel" aria-hidden="true">
+      <div class="chatbot-header">
+        <div class="chatbot-title">
+          <span class="chatbot-title-mark" aria-hidden="true"></span>
+          <div>
+            <h3>Support Bot</h3>
+            <p>Discord server setup help</p>
+          </div>
+        </div>
+        <button class="chatbot-close" id="chatbotClose" type="button" aria-label="Close support bot">X</button>
+      </div>
+
+      <div class="chatbot-body">
+        <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-label="Support bot messages"></div>
+        <div class="chatbot-options" id="chatbotOptions" aria-label="Support bot options"></div>
+      </div>
+    </div>
+
+    <button class="chatbot-toggle" id="chatbotToggle" type="button" aria-expanded="false" aria-controls="chatbotPanel" aria-label="Open support bot">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 18L2.5 21V5.5C2.5 4.4 3.4 3.5 4.5 3.5H19.5C20.6 3.5 21.5 4.4 21.5 5.5V16.5C21.5 17.6 20.6 18.5 19.5 18.5H6V18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M7 9H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M7 13H14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
   <script>
     const observer = new IntersectionObserver(
       (entries) => {
@@ -959,6 +1200,121 @@
     );
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+    const chatbot = document.getElementById("chatbot");
+    const chatbotPanel = document.getElementById("chatbotPanel");
+    const chatbotToggle = document.getElementById("chatbotToggle");
+    const chatbotClose = document.getElementById("chatbotClose");
+    const chatbotMessages = document.getElementById("chatbotMessages");
+    const chatbotOptions = document.getElementById("chatbotOptions");
+
+    const botOptions = [
+      {
+        label: "View Prices",
+        reply: "Starter: $10\nAdvanced: $25\nPro: $50\nReady to order? Click below or contact me."
+      },
+      {
+        label: "What's Included",
+        reply: "- Channels & categories\n- Roles & permissions\n- Bot setup\n- Clean server design"
+      },
+      {
+        label: "FAQ",
+        reply: "Do I need access? -> Yes (temporary)\nHow long does it take? -> 1-3 days\nCan I request custom features? -> Yes"
+      },
+      {
+        label: "Contact Owner",
+        reply: "Contact me on Discord: USERNAME#0000"
+      }
+    ];
+
+    let chatbotStarted = false;
+    let typingTimer = null;
+
+    function scrollChatToLatest() {
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function addMessage(text, sender, extraClass = "") {
+      const message = document.createElement("div");
+      message.className = `chatbot-message ${sender}${extraClass ? ` ${extraClass}` : ""}`;
+      message.textContent = text;
+      chatbotMessages.appendChild(message);
+      scrollChatToLatest();
+      return message;
+    }
+
+    function setOptions(disabledLabels = []) {
+      chatbotOptions.innerHTML = "";
+
+      botOptions.forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chatbot-option";
+        button.textContent = option.label;
+        button.disabled = disabledLabels.includes(option.label);
+        button.addEventListener("click", () => handleOptionClick(option, button));
+        chatbotOptions.appendChild(button);
+      });
+    }
+
+    function showBotReply(text) {
+      const typingMessage = addMessage("Support Bot is typing...", "bot", "typing");
+
+      typingTimer = window.setTimeout(() => {
+        typingMessage.remove();
+        addMessage(text, "bot");
+      }, 650);
+    }
+
+    function handleOptionClick(option, button) {
+      if (button.disabled) {
+        return;
+      }
+
+      addMessage(option.label, "user");
+      button.disabled = true;
+      showBotReply(option.reply);
+    }
+
+    function startChatbot() {
+      if (chatbotStarted) {
+        return;
+      }
+
+      chatbotStarted = true;
+      addMessage("Hey! Need help setting up your Discord server?", "bot");
+      setOptions();
+    }
+
+    function openChatbot() {
+      chatbot.classList.add("open");
+      chatbotPanel.setAttribute("aria-hidden", "false");
+      chatbotToggle.setAttribute("aria-expanded", "true");
+      startChatbot();
+      scrollChatToLatest();
+    }
+
+    function closeChatbot() {
+      chatbot.classList.remove("open");
+      chatbotPanel.setAttribute("aria-hidden", "true");
+      chatbotToggle.setAttribute("aria-expanded", "false");
+    }
+
+    chatbotToggle.addEventListener("click", () => {
+      if (chatbot.classList.contains("open")) {
+        closeChatbot();
+      } else {
+        openChatbot();
+      }
+    });
+
+    chatbotClose.addEventListener("click", closeChatbot);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && chatbot.classList.contains("open")) {
+        closeChatbot();
+      }
+    });
   </script>
 </body>
 </html>
