@@ -1,33 +1,1320 @@
-<!-- Updated index.html content with consistent styles -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Lootify</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lootify | Gaming Services Marketplace</title>
+  <meta
+    name="description"
+    content="Buy gaming services instantly from trusted sellers. Fast delivery, secure payments, and simple Discord-based order handling."
+  />
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --panel: #151922;
+      --panel-2: #11151d;
+      --border: #262c3a;
+      --primary: #b7ff00;
+      --accent: #ff2bd6;
+      --text: #ffffff;
+      --muted: #a6adbb;
+      --muted-2: #7f8796;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      --glow-primary: 0 0 0 1px rgba(183, 255, 0, 0.16), 0 0 30px rgba(183, 255, 0, 0.14);
+      --glow-accent: 0 0 0 1px rgba(255, 43, 214, 0.14), 0 0 28px rgba(255, 43, 214, 0.16);
+      --radius: 20px;
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(183, 255, 0, 0.09), transparent 24%),
+        radial-gradient(circle at top right, rgba(255, 43, 214, 0.08), transparent 22%),
+        linear-gradient(180deg, #0d0f14 0%, #0b0d12 100%);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 84px 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 3vw, 2.9rem);
+      line-height: 1.05;
+      margin: 0 0 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(183, 255, 0, 0.18);
+      border-radius: 999px;
+      background: rgba(183, 255, 0, 0.06);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(13, 15, 20, 0.78);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .navbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 0 18px rgba(183, 255, 0, 0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 88px 0 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3.2rem, 8vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      margin: 18px 0 14px;
+    }
+
+    .hero-copy h1 span {
+      color: var(--primary);
+      text-shadow: 0 0 28px rgba(183, 255, 0, 0.2);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.15rem, 2vw, 1.45rem);
+      color: var(--text);
+      margin: 0 0 16px;
+      font-weight: 600;
+    }
+
+    .hero-description {
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 1.03rem;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      font-size: 0.98rem;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--primary);
+      color: #091000;
+      box-shadow: 0 12px 30px rgba(183, 255, 0, 0.22);
+    }
+
+    .button-primary:hover {
+      box-shadow: 0 18px 36px rgba(183, 255, 0, 0.28), 0 0 24px rgba(183, 255, 0, 0.16);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      border-color: var(--border);
+      box-shadow: var(--glow-accent);
+    }
+
+    .button-secondary:hover {
+      border-color: rgba(255, 43, 214, 0.36);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .trust-bullets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .trust-bullet {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .trust-bullet strong {
+      color: var(--text);
+    }
+
+    .hero-panel {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+        var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: var(--shadow), var(--glow-primary);
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      min-height: 100%;
+    }
+
+    .hero-panel-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(183, 255, 0, 0.2);
+      background: rgba(183, 255, 0, 0.08);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .panel-text {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--panel-2);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .mini-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #081100;
+      background: linear-gradient(135deg, var(--primary), #d7ff72);
+    }
+
+    .mini-item strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .mini-item span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .mini-price {
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .services-grid,
+    .trust-grid,
+    .stats-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .card {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.012)),
+        var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: transform 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(183, 255, 0, 0.28);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(183, 255, 0, 0.12), 0 0 30px rgba(183, 255, 0, 0.08);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(183, 255, 0, 0.08);
+      border: 1px solid rgba(183, 255, 0, 0.18);
+      color: var(--primary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .service-title {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .service-desc {
+      margin: 0 0 22px;
+      color: var(--muted);
+      min-height: 72px;
+    }
+
+    .price {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 18px;
+      text-shadow: 0 0 20px rgba(183, 255, 0, 0.14);
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card-actions .button {
+      width: 100%;
+    }
+
+    .button-outline {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .button-outline:hover {
+      border-color: rgba(255, 43, 214, 0.38);
+      box-shadow: 0 0 22px rgba(255, 43, 214, 0.12);
+    }
+
+    .trust-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .trust-item {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .trust-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .trust-item-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      color: #091000;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 12px 28px rgba(255, 43, 214, 0.15);
+    }
+
+    .trust-item h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .trust-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 24px;
+    }
+
+    .stat-card {
+      padding: 28px 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(183, 255, 0, 0.04), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--border);
+      text-align: center;
+      box-shadow: var(--glow-primary);
+    }
+
+    .stat-value {
+      display: block;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .activity-wrap {
+      margin-top: 28px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 16px;
+      transition: background 0.22s ease, transform 0.22s ease;
+    }
+
+    .activity-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+      transform: translateX(2px);
+    }
+
+    .activity-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 6px rgba(183, 255, 0, 0.08), 0 0 20px rgba(183, 255, 0, 0.28);
+      animation: pulse 2.4s infinite;
+    }
+
+    .activity-text strong {
+      display: block;
+      font-size: 0.98rem;
+    }
+
+    .activity-text span {
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .activity-tag {
+      color: var(--muted-2);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .cta-box {
+      padding: 34px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top left, rgba(183, 255, 0, 0.12), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(255, 43, 214, 0.12), transparent 32%),
+        var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow), var(--glow-accent);
+      text-align: center;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .cta-box p {
+      margin: 0 auto 24px;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    footer {
+      padding: 28px 0 44px;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .chatbot {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 100;
+    }
+
+    .chatbot-toggle {
+      width: 64px;
+      height: 64px;
+      border: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #5865F2, #7b85ff);
+      color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(88, 101, 242, 0.34);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+    }
+
+    .chatbot-toggle:hover {
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.08);
+      box-shadow: 0 24px 46px rgba(88, 101, 242, 0.4);
+    }
+
+    .chatbot-toggle svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .chatbot-panel {
+      position: absolute;
+      right: 0;
+      bottom: 82px;
+      width: min(380px, calc(100vw - 28px));
+      max-height: min(620px, calc(100vh - 120px));
+      background:
+        radial-gradient(circle at top right, rgba(88, 101, 242, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+        #11151d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    .chatbot.open .chatbot-panel {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 18px 16px;
+      background: rgba(88, 101, 242, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .chatbot-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chatbot-title-mark {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #5865F2;
+      box-shadow: 0 0 0 7px rgba(88, 101, 242, 0.18);
+    }
+
+    .chatbot-title h3 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .chatbot-title p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .chatbot-close {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .chatbot-close:hover {
+      background: rgba(255, 255, 255, 0.09);
+      transform: scale(1.04);
+    }
+
+    .chatbot-body {
+      display: flex;
+      flex-direction: column;
+      height: min(520px, calc(100vh - 190px));
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .chatbot-message {
+      max-width: 88%;
+      padding: 12px 14px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+      animation: chat-message-in 0.22s ease;
+      white-space: pre-line;
+    }
+
+    .chatbot-message.bot {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+
+    .chatbot-message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #5865F2, #6974ff);
+      color: #ffffff;
+    }
+
+    .chatbot-message.typing {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .chatbot-options {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .chatbot-option {
+      width: 100%;
+      border: 1px solid rgba(88, 101, 242, 0.28);
+      border-radius: 14px;
+      background: rgba(88, 101, 242, 0.09);
+      color: #eef0ff;
+      text-align: left;
+      padding: 13px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .chatbot-option:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: rgba(88, 101, 242, 0.16);
+      border-color: rgba(123, 133, 255, 0.5);
+    }
+
+    .chatbot-option:disabled {
+      cursor: not-allowed;
+      opacity: 0.48;
+    }
+
+    @keyframes chat-message-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.12);
+        opacity: 0.82;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .services-grid,
+      .trust-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-desc {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .section {
+        padding: 68px 0;
+      }
+
+      .navbar {
+        min-height: 70px;
+      }
+
+      .nav-links {
+        gap: 4px;
+        justify-content: flex-end;
+      }
+
+      .nav-links a {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        padding-top: 64px;
+      }
+
+      .hero-actions,
+      .card-actions,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions,
+      .card-actions {
+        display: grid;
+      }
+
+      .activity-item {
+        grid-template-columns: auto 1fr;
+      }
+
+      .activity-tag {
+        display: none;
+      }
+
+      .cta-box {
+        padding: 28px 20px;
+      }
+
+      .chatbot {
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .chatbot-panel {
+        bottom: 76px;
+        width: min(100vw - 20px, 380px);
+      }
+
+      .chatbot-toggle {
+        width: 58px;
+        height: 58px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(calc(100% - 20px), var(--container));
+      }
+
+      .navbar {
+        flex-direction: column;
+        justify-content: center;
+        padding: 14px 0;
+      }
+
+      .logo {
+        align-self: flex-start;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .trust-bullet {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .reveal,
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="nav-wrap">
+    <div class="container">
+      <nav class="navbar" aria-label="Primary navigation">
+        <a class="logo" href="#top" aria-label="Lootify home">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span>Lootify</span>
+        </a>
+        <div class="nav-links">
+          <a href="#services">Services</a>
+          <a href="#trust">Trust</a>
+          <a href="#activity">Activity</a>
+          <a href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Discord</a>
+        </div>
+      </nav>
+    </div>
+  </div>
 
-<header>
-    <h1>Welcome to Lootify</h1>
-</header>
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <div class="eyebrow">Trusted • Fast • Reliable</div>
+            <h1><span>Lootify</span></h1>
+            <p class="hero-subtitle">Gaming services made simple</p>
+            <p class="hero-description">
+              Buy gaming services instantly from trusted sellers. Fast delivery, secure payments, and simple Discord-based order handling.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#services">Browse Services</a>
+              <a class="button button-secondary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Join Discord</a>
+            </div>
+            <div class="trust-bullets" aria-label="Key trust indicators">
+              <div class="trust-bullet"><strong>✔</strong> Trusted Sellers</div>
+              <div class="trust-bullet"><strong>✔</strong> Secure Payments</div>
+              <div class="trust-bullet"><strong>✔</strong> Instant Discord Delivery</div>
+            </div>
+          </div>
 
-<main>
-    <section id="features">
-        <h2>Features</h2>
-        <p>Explore unique features that Lootify offers.</p>
+          <aside class="hero-panel reveal" aria-label="Marketplace highlights">
+            <div class="hero-panel-top">
+              <div>
+                <h2 class="panel-title">Fast, direct order flow</h2>
+                <p class="panel-text">Choose a service, pay securely, then finish everything inside Discord.</p>
+              </div>
+              <div class="status-pill">Live</div>
+            </div>
+
+            <div class="mini-list">
+              <div class="mini-item">
+                <div class="mini-icon">1</div>
+                <div>
+                  <strong>Pick a service</strong>
+                  <span>Coaching, carry, or optimization</span>
+                </div>
+                <div class="mini-price">$10+</div>
+              </div>
+              <div class="mini-item">
+                <div class="mini-icon">2</div>
+                <div>
+                  <strong>Pay securely</strong>
+                  <span>Quick checkout with Stripe</span>
+                </div>
+                <div class="mini-price">Safe</div>
+              </div>
+              <div class="mini-item">
+                <div class="mini-icon">3</div>
+                <div>
+                  <strong>Get help instantly</strong>
+                  <span>Open a Discord ticket after purchase</span>
+                </div>
+                <div class="mini-price">Fast</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
     </section>
 
-    <section id="about">
-        <h2>About Us</h2>
-        <p>Learn more about the Lootify team and our mission.</p>
+    <section class="section" id="services">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Marketplace Services</div>
+          <h2 class="section-title">Browse featured gaming services</h2>
+          <p class="section-copy">
+            Trusted offers with simple checkout, fast delivery, and direct support through Discord.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="card reveal">
+            <div class="badge">✔ Verified Seller</div>
+            <h3 class="service-title">Fortnite 1v1 Coaching ✔</h3>
+            <p class="service-desc">Improve your mechanics, aim, and game sense with focused 1-on-1 coaching.</p>
+            <div class="price">$15</div>
+            <div class="card-actions">
+              <a class="button button-primary" href="https://buy.stripe.com/9B6fZh0yOaxQfbe2D55os02" target="_blank" rel="noopener noreferrer">Buy Now</a>
+              <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact</a>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="badge">✔ Verified Seller</div>
+            <h3 class="service-title">Ranked Carry ✔</h3>
+            <p class="service-desc">Climb ranks faster with experienced players, live guidance, and smarter gameplay.</p>
+            <div class="price">$10</div>
+            <div class="card-actions">
+              <a class="button button-primary" href="https://buy.stripe.com/cNifZhgxMgWed36fpR5os00" target="_blank" rel="noopener noreferrer">Buy Now</a>
+              <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact</a>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="badge">✔ Verified Seller</div>
+            <h3 class="service-title">PC Optimization (Coming Soon)</h3>
+            <p class="service-desc">Advanced performance tuning, FPS boosts, and system optimization. Coming soon.</p>
+            <div class="price">Coming Soon</div>
+            <div class="card-actions">
+              <button class="button button-primary" type="button" disabled style="opacity: 0.6; cursor: not-allowed;">Coming Soon</button>
+              <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact on Discord</a>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
-</main>
 
-<footer>
-    <p>&copy; 2026 Lootify. All rights reserved.</p>
-</footer>
+    <section class="section" id="trust">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Trust</div>
+          <h2 class="section-title">Why Choose Lootify?</h2>
+          <p class="section-copy">
+            A simple marketplace flow built for speed, clarity, and trusted service delivery.
+          </p>
+        </div>
 
+        <div class="trust-grid">
+          <div class="trust-item reveal">
+            <div class="trust-item-icon">✔</div>
+            <h3>Verified Sellers</h3>
+            <p>Manually reviewed service providers for a more reliable buying experience.</p>
+          </div>
+          <div class="trust-item reveal">
+            <div class="trust-item-icon">S</div>
+            <h3>Secure Payments</h3>
+            <p>Stripe-powered checkout for fast and secure payment handling.</p>
+          </div>
+          <div class="trust-item reveal">
+            <div class="trust-item-icon">D</div>
+            <h3>Fast Delivery</h3>
+            <p>Orders are handled quickly through Discord for direct communication.</p>
+          </div>
+          <div class="trust-item reveal">
+            <div class="trust-item-icon">+</div>
+            <h3>Simple Process</h3>
+            <p>No account required. Pick a service, pay, and open a ticket.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stats">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Performance</div>
+          <h2 class="section-title">Built around fast, trusted fulfillment</h2>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card reveal">
+            <span class="stat-value">100+</span>
+            <span class="stat-label">Orders Completed</span>
+          </div>
+          <div class="stat-card reveal">
+            <span class="stat-value">50+</span>
+            <span class="stat-label">Active Customers</span>
+          </div>
+          <div class="stat-card reveal">
+            <span class="stat-value">99%</span>
+            <span class="stat-label">Satisfaction</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="activity">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Recent Activity</div>
+          <h2 class="section-title">Live marketplace momentum</h2>
+          <p class="section-copy">
+            A clean activity feed helps the marketplace feel active and trusted.
+          </p>
+        </div>
+
+        <div class="activity-wrap reveal">
+          <div class="activity-item">
+            <div class="activity-dot" aria-hidden="true"></div>
+            <div class="activity-text">
+              <strong>User purchased Ranked Carry 2 minutes ago</strong>
+              <span>Order confirmed and sent to Discord handling.</span>
+            </div>
+            <div class="activity-tag">New</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" aria-hidden="true"></div>
+            <div class="activity-text">
+              <strong>User booked Coaching session</strong>
+              <span>Seller preparing session details and scheduling.</span>
+            </div>
+            <div class="activity-tag">Booked</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" aria-hidden="true"></div>
+            <div class="activity-text">
+              <strong>User optimized PC for better FPS</strong>
+              <span>Optimization service completed with setup support.</span>
+            </div>
+            <div class="activity-tag">Done</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-box reveal">
+          <h2>Need help or ready to get started?</h2>
+          <p>Join our Discord and open a ticket. We’ll help you instantly.</p>
+          <a class="button button-primary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Join Discord</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Lootify © 2026 • Gaming services made simple.</div>
+  </footer>
+
+  <div class="chatbot" id="chatbot">
+    <div class="chatbot-panel" id="chatbotPanel" aria-hidden="true">
+      <div class="chatbot-header">
+        <div class="chatbot-title">
+          <span class="chatbot-title-mark" aria-hidden="true"></span>
+          <div>
+            <h3>Support Bot</h3>
+            <p>Discord server setup help</p>
+          </div>
+        </div>
+        <button class="chatbot-close" id="chatbotClose" type="button" aria-label="Close support bot">X</button>
+      </div>
+
+      <div class="chatbot-body">
+        <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-label="Support bot messages"></div>
+        <div class="chatbot-options" id="chatbotOptions" aria-label="Support bot options"></div>
+      </div>
+    </div>
+
+    <button class="chatbot-toggle" id="chatbotToggle" type="button" aria-expanded="false" aria-controls="chatbotPanel" aria-label="Open support bot">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 18L2.5 21V5.5C2.5 4.4 3.4 3.5 4.5 3.5H19.5C20.6 3.5 21.5 4.4 21.5 5.5V16.5C21.5 17.6 20.6 18.5 19.5 18.5H6V18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M7 9H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M7 13H14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+    const chatbot = document.getElementById("chatbot");
+    const chatbotPanel = document.getElementById("chatbotPanel");
+    const chatbotToggle = document.getElementById("chatbotToggle");
+    const chatbotClose = document.getElementById("chatbotClose");
+    const chatbotMessages = document.getElementById("chatbotMessages");
+    const chatbotOptions = document.getElementById("chatbotOptions");
+
+    const botOptions = [
+      {
+        label: "View Prices",
+        reply: "Starter: $10\nAdvanced: $25\nPro: $50\nReady to order? Click below or contact me."
+      },
+      {
+        label: "What's Included",
+        reply: "- Channels & categories\n- Roles & permissions\n- Bot setup\n- Clean server design"
+      },
+      {
+        label: "FAQ",
+        reply: "Do I need access? -> Yes (temporary)\nHow long does it take? -> 1-3 days\nCan I request custom features? -> Yes"
+      },
+      {
+        label: "Contact Owner",
+        reply: "Contact me on Discord: USERNAME#0000"
+      }
+    ];
+
+    let chatbotStarted = false;
+    let typingTimer = null;
+
+    function scrollChatToLatest() {
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function addMessage(text, sender, extraClass = "") {
+      const message = document.createElement("div");
+      message.className = `chatbot-message ${sender}${extraClass ? ` ${extraClass}` : ""}`;
+      message.textContent = text;
+      chatbotMessages.appendChild(message);
+      scrollChatToLatest();
+      return message;
+    }
+
+    function setOptions(disabledLabels = []) {
+      chatbotOptions.innerHTML = "";
+
+      botOptions.forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chatbot-option";
+        button.textContent = option.label;
+        button.disabled = disabledLabels.includes(option.label);
+        button.addEventListener("click", () => handleOptionClick(option, button));
+        chatbotOptions.appendChild(button);
+      });
+    }
+
+    function showBotReply(text) {
+      const typingMessage = addMessage("Support Bot is typing...", "bot", "typing");
+
+      typingTimer = window.setTimeout(() => {
+        typingMessage.remove();
+        addMessage(text, "bot");
+      }, 650);
+    }
+
+    function handleOptionClick(option, button) {
+      if (button.disabled) {
+        return;
+      }
+
+      addMessage(option.label, "user");
+      button.disabled = true;
+      showBotReply(option.reply);
+    }
+
+    function startChatbot() {
+      if (chatbotStarted) {
+        return;
+      }
+
+      chatbotStarted = true;
+      addMessage("Hey! Need help setting up your Discord server?", "bot");
+      setOptions();
+    }
+
+    function openChatbot() {
+      chatbot.classList.add("open");
+      chatbotPanel.setAttribute("aria-hidden", "false");
+      chatbotToggle.setAttribute("aria-expanded", "true");
+      startChatbot();
+      scrollChatToLatest();
+    }
+
+    function closeChatbot() {
+      chatbot.classList.remove("open");
+      chatbotPanel.setAttribute("aria-hidden", "true");
+      chatbotToggle.setAttribute("aria-expanded", "false");
+    }
+
+    chatbotToggle.addEventListener("click", () => {
+      if (chatbot.classList.contains("open")) {
+        closeChatbot();
+      } else {
+        openChatbot();
+      }
+    });
+
+    chatbotClose.addEventListener("click", closeChatbot);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && chatbot.classList.contains("open")) {
+        closeChatbot();
+      }
+    });
+  </script>
 </body>
 </html>
