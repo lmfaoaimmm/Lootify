@@ -3,10 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lootify | Gaming Services Marketplace</title>
+  <title>Lootify | Dynamic Gaming Services Marketplace, Loot Codes & Discord Support</title>
   <meta
     name="description"
-    content="Buy gaming services instantly from trusted sellers. Fast delivery, secure payments, and simple Discord-based order handling."
+    content="Browse Lootify gaming services with live marketplace filters, Loot Code discounts, Discord support, reviews, wishlist saves, secure Stripe checkout, and trusted seller badges."
+  />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
   />
   <style>
     :root {
@@ -45,6 +52,21 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+    }
+
+    body.light-mode {
+      --bg: #f7f9fc;
+      --panel: #ffffff;
+      --panel-2: #eef3f8;
+      --border: #d9e2ec;
+      --text: #101522;
+      --muted: #4f5d70;
+      --muted-2: #738196;
+      --shadow: 0 20px 48px rgba(17, 24, 39, 0.12);
+      background:
+        radial-gradient(circle at top left, rgba(73, 120, 255, 0.08), transparent 24%),
+        radial-gradient(circle at top right, rgba(255, 43, 214, 0.07), transparent 22%),
+        linear-gradient(180deg, #f7f9fc 0%, #edf2f7 100%);
     }
 
     a {
@@ -496,6 +518,227 @@
       width: 100%;
     }
 
+    .marketplace-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 14px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .marketplace-search,
+    .marketplace-select,
+    .marketplace-toggle,
+    .marketplace-review-input {
+      min-height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .marketplace-search,
+    .marketplace-select,
+    .marketplace-review-input {
+      width: 100%;
+      padding: 0 14px;
+    }
+
+    .marketplace-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .marketplace-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 22px;
+      align-items: start;
+      margin-top: 26px;
+    }
+
+    #marketplace-container {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .marketplace-card {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .marketplace-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .marketplace-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .marketplace-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(183, 255, 0, 0.95), rgba(255, 43, 214, 0.9));
+      color: #071000;
+      font-size: 1.25rem;
+      box-shadow: 0 12px 28px rgba(255, 43, 214, 0.14);
+    }
+
+    .marketplace-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .marketplace-badge {
+      border-radius: 999px;
+      padding: 6px 9px;
+      background: rgba(183, 255, 0, 0.09);
+      border: 1px solid rgba(183, 255, 0, 0.18);
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .marketplace-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .marketplace-discount {
+      display: inline-flex;
+      margin-bottom: 16px;
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.9rem;
+    }
+
+    .marketplace-rating {
+      color: var(--primary);
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .wishlist-button {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 14px;
+      min-height: 44px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .wishlist-button.active {
+      border-color: rgba(255, 43, 214, 0.45);
+      color: var(--accent);
+      box-shadow: 0 0 20px rgba(255, 43, 214, 0.11);
+    }
+
+    .marketplace-review {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .star-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .star-button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel-2);
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .star-button.active {
+      color: #071000;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .marketplace-submit-review {
+      border: 0;
+      border-radius: 14px;
+      min-height: 42px;
+      background: var(--primary);
+      color: #071000;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .marketplace-side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .marketplace-panel {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .marketplace-panel h3 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+    }
+
+    .marketplace-panel p,
+    .marketplace-panel li {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .marketplace-panel ul {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .loyalty-points {
+      display: block;
+      color: var(--primary);
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
     .button-outline {
       background: transparent;
       border-color: var(--border);
@@ -574,57 +817,6 @@
     .stat-label {
       color: var(--muted);
       font-weight: 600;
-    }
-
-    .activity-wrap {
-      margin-top: 28px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 10px;
-      box-shadow: var(--shadow);
-    }
-
-    .activity-item {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 16px;
-      align-items: center;
-      padding: 16px;
-      border-radius: 16px;
-      transition: background 0.22s ease, transform 0.22s ease;
-    }
-
-    .activity-item:hover {
-      background: rgba(255, 255, 255, 0.03);
-      transform: translateX(2px);
-    }
-
-    .activity-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--primary);
-      box-shadow: 0 0 0 6px rgba(183, 255, 0, 0.08), 0 0 20px rgba(183, 255, 0, 0.28);
-      animation: pulse 2.4s infinite;
-    }
-
-    .activity-text strong {
-      display: block;
-      font-size: 0.98rem;
-    }
-
-    .activity-text span {
-      color: var(--muted);
-      font-size: 0.93rem;
-    }
-
-    .activity-tag {
-      color: var(--muted-2);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
     }
 
     .cta-box {
@@ -807,6 +999,30 @@
       font-size: 0.95rem;
     }
 
+    .maintenance-banner {
+      position: sticky;
+      top: 0;
+      z-index: 120;
+      display: none;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.96), rgba(255, 95, 126, 0.96));
+      color: #120b00;
+      text-align: center;
+      font-weight: 900;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+    }
+
+    body.maintenance-active .maintenance-banner {
+      display: block;
+    }
+
+    .maintenance-disabled,
+    [aria-disabled="true"] {
+      opacity: 0.54;
+      cursor: not-allowed !important;
+      filter: grayscale(0.18);
+    }
+
     .chatbot {
       position: fixed;
       right: 20px;
@@ -963,6 +1179,13 @@
       font-style: italic;
     }
 
+    .chatbot-message.typing::after {
+      content: "";
+      display: inline-block;
+      width: 1.8em;
+      animation: typing-dots 1.1s steps(4, end) infinite;
+    }
+
     .chatbot-options {
       padding: 0 18px 12px;
       display: grid;
@@ -987,11 +1210,52 @@
       transform: translateY(-2px);
       background: rgba(88, 101, 242, 0.16);
       border-color: rgba(123, 133, 255, 0.5);
+      box-shadow: 0 0 24px rgba(88, 101, 242, 0.18);
     }
 
     .chatbot-option:disabled {
       cursor: not-allowed;
       opacity: 0.48;
+    }
+
+    .chatbot-secondary {
+      margin: 0 18px 12px;
+      border: 1px solid rgba(88, 101, 242, 0.18);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      overflow: hidden;
+    }
+
+    .chatbot-secondary summary {
+      padding: 12px 14px;
+      cursor: pointer;
+      color: var(--muted);
+      font-weight: 800;
+      list-style-position: inside;
+    }
+
+    .chatbot-secondary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 12px 12px;
+    }
+
+    .chatbot-secondary-button {
+      border: 1px solid rgba(88, 101, 242, 0.24);
+      border-radius: 14px;
+      background: rgba(88, 101, 242, 0.08);
+      color: var(--text);
+      min-height: 40px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .chatbot-secondary-button:hover {
+      transform: translateY(-2px);
+      background: rgba(88, 101, 242, 0.16);
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.16);
     }
 
     .chatbot-actions {
@@ -1076,6 +1340,21 @@
       }
     }
 
+    @keyframes typing-dots {
+      0% {
+        content: "";
+      }
+      25% {
+        content: ".";
+      }
+      50% {
+        content: "..";
+      }
+      75%, 100% {
+        content: "...";
+      }
+    }
+
     .reveal {
       opacity: 0;
       transform: translateY(18px);
@@ -1101,6 +1380,8 @@
     @media (max-width: 1080px) {
       .hero-grid,
       .services-grid,
+      .marketplace-layout,
+      #marketplace-container,
       .trust-grid {
         grid-template-columns: 1fr;
       }
@@ -1139,6 +1420,9 @@
 
       .hero-actions,
       .card-actions,
+      .marketplace-toolbar,
+      .marketplace-layout,
+      #marketplace-container,
       .stats-grid {
         grid-template-columns: 1fr;
       }
@@ -1148,12 +1432,8 @@
         display: grid;
       }
 
-      .activity-item {
-        grid-template-columns: auto 1fr;
-      }
-
-      .activity-tag {
-        display: none;
+      .marketplace-layout {
+        gap: 18px;
       }
 
       .cta-box {
@@ -1245,6 +1525,10 @@
   </style>
 </head>
 <body>
+  <div id="maintenance-banner" class="maintenance-banner" role="status" aria-live="polite">
+    ⚠️ Lootify Weekly Maintenance: The site may have limited functionality every Friday 2–4 PM EST.
+  </div>
+
   <div class="nav-wrap">
     <div class="container">
       <nav class="navbar" aria-label="Primary navigation">
@@ -1255,12 +1539,12 @@
         <div class="nav-links">
           <a href="#services">Services</a>
           <a href="#trust">Trust</a>
-          <a href="#activity">Activity</a>
-          <a href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Discord</a>
+          <a href="#services">Marketplace</a>
+          <a href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join the Lootify Discord server">Discord</a>
         </div>
         <div id="userBox">
           <a href="https://discord.com/oauth2/authorize?client_id=1495254927319105576&response_type=token&redirect_uri=https%3A%2F%2Flmfaoaimmm.github.io%2FLootify%2F&scope=identify">
-            <button>Login with Discord</button>
+            <button type="button" aria-label="Login with Discord">Login with Discord</button>
           </a>
         </div>
       </nav>
@@ -1279,8 +1563,8 @@
               Buy gaming services instantly from trusted sellers. Fast delivery, secure payments, and simple Discord-based order handling.
             </p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#services">Browse Services</a>
-              <a class="button button-secondary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Join Discord</a>
+              <a class="button button-primary" href="#services" aria-label="Browse Lootify marketplace services">Browse Services</a>
+              <a class="button button-secondary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join the Lootify Discord server">Join Discord</a>
             </div>
             <div class="trust-bullets" aria-label="Key trust indicators">
               <div class="trust-bullet"><strong>✔</strong> Trusted Sellers</div>
@@ -1339,39 +1623,42 @@
           </p>
         </div>
 
-        <div class="services-grid">
-          <article class="card reveal">
-            <div class="badge">✔ Verified Seller</div>
-            <h3 class="service-title">Fortnite 1v1 Coaching ✔</h3>
-            <p class="service-desc">Improve your mechanics, aim, and game sense with focused 1-on-1 coaching.</p>
-            <div class="price">$15</div>
-            <div class="card-actions">
-              <a class="button button-primary" href="https://buy.stripe.com/9B6fZh0yOaxQfbe2D55os02" target="_blank" rel="noopener noreferrer">Buy Now</a>
-              <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact</a>
-            </div>
-          </article>
+        <div class="marketplace-toolbar reveal" aria-label="Marketplace filters">
+          <input id="marketplace-search" class="marketplace-search" type="search" placeholder="Search by service, category, or price" aria-label="Search marketplace services" />
+          <select id="marketplace-category" class="marketplace-select" aria-label="Filter marketplace category">
+            <option value="all">All categories</option>
+          </select>
+          <button id="theme-toggle" class="marketplace-toggle" type="button" aria-label="Toggle light or dark mode">
+            <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
+            Theme
+          </button>
+        </div>
 
-          <article class="card reveal">
-            <div class="badge">✔ Verified Seller</div>
-            <h3 class="service-title">Ranked Carry ✔</h3>
-            <p class="service-desc">Climb ranks faster with experienced players, live guidance, and smarter gameplay.</p>
-            <div class="price">$10</div>
-            <div class="card-actions">
-              <a class="button button-primary" href="https://buy.stripe.com/cNifZhgxMgWed36fpR5os00" target="_blank" rel="noopener noreferrer">Buy Now</a>
-              <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact</a>
-            </div>
-          </article>
+        <div class="marketplace-layout">
+          <div id="marketplace-container" aria-live="polite"></div>
 
-          <article class="card reveal">
-            <div class="badge">✔ Verified Seller</div>
-            <h3 class="service-title">PC Optimization (Coming Soon)</h3>
-            <p class="service-desc">Advanced performance tuning, FPS boosts, and system optimization. Coming soon.</p>
-            <div class="price">Coming Soon</div>
-            <div class="card-actions">
-              <button class="button button-primary" type="button" disabled style="opacity: 0.6; cursor: not-allowed;">Coming Soon</button>
-              <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact on Discord</a>
+          <aside class="marketplace-side" aria-label="Marketplace status panels">
+            <div class="marketplace-panel reveal">
+              <h3><i class="fa-brands fa-discord" aria-hidden="true"></i> Live Discord Activity</h3>
+              <ul id="discord-activity-panel"></ul>
             </div>
-          </article>
+
+            <div class="marketplace-panel reveal">
+              <h3><i class="fa-solid fa-trophy" aria-hidden="true"></i> Loyalty Rewards</h3>
+              <span class="loyalty-points" id="loyalty-points">0 pts</span>
+              <p>Earn points when you start purchases, save services, or refer a friend.</p>
+              <button class="marketplace-toggle" id="referral-button" type="button" aria-label="Claim referral loyalty points">Claim Referral Points</button>
+            </div>
+
+            <div class="marketplace-panel reveal">
+              <h3><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Trust Signals</h3>
+              <ul>
+                <li>Recently bought: Ranked Carry</li>
+                <li>Top Seller: Fortnite 1v1 Coaching</li>
+                <li>Loot Code highlight: LOOTIFY10</li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -1413,7 +1700,7 @@
                 placeholder=" Enter your Loot Code"
                 autocomplete="off"
               />
-              <button class="lootify-apply-button" id="lootify-apply-button" type="button">Apply</button>
+              <button class="lootify-apply-button" id="lootify-apply-button" type="button" aria-label="Apply Loot Code">Apply</button>
             </div>
 
             <p class="lootify-code-message" id="lootify-code-message" aria-live="polite"></p>
@@ -1485,51 +1772,12 @@
       </div>
     </section>
 
-    <section class="section" id="activity">
-      <div class="container">
-        <div class="reveal">
-          <div class="eyebrow">Recent Activity</div>
-          <h2 class="section-title">Live marketplace momentum</h2>
-          <p class="section-copy">
-            A clean activity feed helps the marketplace feel active and trusted.
-          </p>
-        </div>
-
-        <div class="activity-wrap reveal">
-          <div class="activity-item">
-            <div class="activity-dot" aria-hidden="true"></div>
-            <div class="activity-text">
-              <strong>User purchased Ranked Carry 2 minutes ago</strong>
-              <span>Order confirmed and sent to Discord handling.</span>
-            </div>
-            <div class="activity-tag">New</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" aria-hidden="true"></div>
-            <div class="activity-text">
-              <strong>User booked Coaching session</strong>
-              <span>Seller preparing session details and scheduling.</span>
-            </div>
-            <div class="activity-tag">Booked</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" aria-hidden="true"></div>
-            <div class="activity-text">
-              <strong>User optimized PC for better FPS</strong>
-              <span>Optimization service completed with setup support.</span>
-            </div>
-            <div class="activity-tag">Done</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section">
       <div class="container">
         <div class="cta-box reveal">
           <h2>Need help or ready to get started?</h2>
           <p>Join our Discord and open a ticket. We’ll help you instantly.</p>
-          <a class="button button-primary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Join Discord</a>
+          <a class="button button-primary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join the Lootify Discord server">Join Discord</a>
         </div>
       </div>
     </section>
@@ -1555,6 +1803,13 @@
       <div class="chatbot-body">
         <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-label="Support bot messages"></div>
         <div class="chatbot-options" id="chatbotOptions" aria-label="Support bot options"></div>
+        <details class="chatbot-secondary">
+          <summary>FAQ and guide</summary>
+          <div class="chatbot-secondary-grid">
+            <button class="chatbot-secondary-button" type="button" data-chatbot-prompt="marketplace guide faq wishlist reviews" aria-label="Open marketplace guide">Marketplace Guide</button>
+            <button class="chatbot-secondary-button" type="button" data-chatbot-prompt="track order progress status" aria-label="Track order progress">Track Order</button>
+          </div>
+        </details>
         <div class="chatbot-actions" id="chatbotActions" aria-label="Support bot actions"></div>
         <form class="chatbot-input-wrap" id="chatbotInputForm" autocomplete="off">
           <input id="chatbotInput" type="text" placeholder="Ask anything…" aria-label="Ask Lootify Bot anything" />
@@ -1598,27 +1853,24 @@
     const chatbotInput = document.getElementById("chatbotInput");
     const DISCORD_INVITE_URL = "https://discord.gg/U9put8F4F";
     const DISCORD_WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE";
+    window.lootifyMaintenanceActive = false;
 
     const botOptions = [
       {
-        label: "View Prices",
-        type: "prices"
-      },
-      {
-        label: "What's Included",
-        type: "features"
+        label: "View Packages",
+        type: "packages"
       },
       {
         label: "Loot Codes",
         type: "lootCodes"
       },
       {
-        label: "Start Order",
-        type: "startOrder"
-      },
-      {
         label: "Live Support",
         type: "liveSupport"
+      },
+      {
+        label: "Start Order",
+        type: "startOrder"
       }
     ];
 
@@ -1668,6 +1920,7 @@
     }
 
     function setOptions(disabledLabels = []) {
+      const fragment = document.createDocumentFragment();
       chatbotOptions.innerHTML = "";
 
       botOptions.forEach((option) => {
@@ -1675,15 +1928,23 @@
         button.type = "button";
         button.className = "chatbot-option";
         button.textContent = option.label;
+        button.setAttribute("aria-label", option.label);
         button.disabled = disabledLabels.includes(option.label);
         button.addEventListener("click", () => handleOptionClick(option, button));
-        chatbotOptions.appendChild(button);
+        fragment.appendChild(button);
       });
+
+      chatbotOptions.appendChild(fragment);
     }
 
     function showStartOrderAction() {
       clearChatbotActions();
       addActionButton("Start Order", () => {
+        if (window.lootifyMaintenanceActive) {
+          showBotReply("Lootify maintenance is active right now. Ordering may be limited every Friday 2-4 PM EST; please wait until the banner clears or contact Live Support.");
+          return;
+        }
+
         const selectedPackage = document.getElementById("lootify-package-select");
         const lootCode = document.getElementById("lootify-code-input");
         const packageText = selectedPackage
@@ -1775,6 +2036,20 @@
         };
       }
 
+      if (/\b(faq|guide|marketplace|wishlist|review|rating|seller|service|services)\b/.test(text)) {
+        return {
+          text: "Use the marketplace search to filter by service, category, or price. Save favorites with Wishlist, check HOT and Featured badges, then use reviews and Discord support before ordering."
+        };
+      }
+
+      if (/\b(track|tracking|status|progress)\b/.test(text)) {
+        const orderStatus = localStorage.getItem("lootifyOrderStatus") || "No active order is saved in this browser yet. After checkout, open Discord and we can track it with your ticket details.";
+        return {
+          text: "Order progress: " + orderStatus,
+          supportActions: true
+        };
+      }
+
       if (/\b(support|help|owner|human|person|discord|contact)\b/.test(text)) {
         return {
           text: "Live Support can help with new server setups, custom requests, and general questions.",
@@ -1789,11 +2064,14 @@
 
     function showBotReply(reply, options = {}) {
       const replyData = typeof reply === "string" ? { text: reply, ...options } : reply;
-      const typingMessage = addMessage("Lootify Bot is typing…", "bot", "typing");
+      const maintenancePrefix = window.lootifyMaintenanceActive
+        ? "Maintenance is active: ordering and notify actions may be limited until 4 PM EST.\n\n"
+        : "";
+      const typingMessage = addMessage("Lootify Bot is typing", "bot", "typing");
 
       typingTimer = window.setTimeout(() => {
         typingMessage.remove();
-        addMessage(replyData.text, "bot");
+        addMessage(maintenancePrefix + replyData.text, "bot");
         clearChatbotActions();
 
         if (replyData.startOrder) {
@@ -1818,12 +2096,8 @@
       addMessage(option.label, "user");
       button.disabled = true;
 
-      if (option.type === "prices") {
+      if (option.type === "packages") {
         showBotReply(smartReply("price package cost"));
-      }
-
-      if (option.type === "features") {
-        showBotReply(smartReply("features included bots"));
       }
 
       if (option.type === "lootCodes") {
@@ -1858,7 +2132,22 @@
       }
 
       chatbotStarted = true;
-      addMessage("Hey! Need help setting up your Discord server? Ask about prices, Loot Codes, packages, or live support.", "bot");
+      let greetingName = "";
+
+      try {
+        const savedUser = JSON.parse(localStorage.getItem("lootifyUser"));
+
+        if (savedUser && savedUser.username) {
+          greetingName = " " + savedUser.username;
+        }
+      } catch (error) {
+        greetingName = "";
+      }
+
+      addMessage("Hey" + greetingName + "! Need help with the marketplace? Ask about prices, Loot Codes, reviews, order tracking, packages, or live support.", "bot");
+      if (window.lootifyMaintenanceActive) {
+        addMessage("Lootify weekly maintenance is active. Ordering and notify actions may be limited until 4 PM EST.", "bot");
+      }
       setOptions();
     }
 
@@ -1891,10 +2180,81 @@
       sendSmartMessage();
     });
 
+    document.querySelectorAll("[data-chatbot-prompt]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const prompt = button.getAttribute("data-chatbot-prompt") || "";
+        addMessage(button.textContent.trim(), "user");
+        showBotReply(smartReply(prompt));
+      });
+    });
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && chatbot.classList.contains("open")) {
         closeChatbot();
       }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const banner = document.getElementById("maintenance-banner");
+
+      function isMaintenanceWindow() {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/New_York",
+          weekday: "short",
+          hour: "numeric",
+          hour12: false
+        }).formatToParts(new Date());
+        const weekday = parts.find((part) => part.type === "weekday")?.value;
+        const hour = Number(parts.find((part) => part.type === "hour")?.value);
+
+        return weekday === "Fri" && hour >= 14 && hour < 16;
+      }
+
+      function setDisabledState(element, disabled) {
+        const isAnchor = element.tagName.toLowerCase() === "a";
+        element.classList.toggle("maintenance-disabled", disabled);
+        element.setAttribute("aria-disabled", String(disabled));
+
+        if (isAnchor) {
+          if (disabled) {
+            element.dataset.maintenanceHref = element.getAttribute("href") || "";
+            element.removeAttribute("href");
+            element.setAttribute("tabindex", "-1");
+          } else if (element.dataset.maintenanceHref) {
+            element.setAttribute("href", element.dataset.maintenanceHref);
+            element.removeAttribute("tabindex");
+            delete element.dataset.maintenanceHref;
+          }
+        } else {
+          element.disabled = disabled;
+        }
+      }
+
+      window.updateLootifyMaintenanceState = function updateLootifyMaintenanceState() {
+        const active = isMaintenanceWindow();
+        window.lootifyMaintenanceActive = active;
+        document.body.classList.toggle("maintenance-active", active);
+
+        if (banner) {
+          banner.hidden = !active;
+        }
+
+        document.querySelectorAll("[data-maintenance-disable]").forEach((element) => {
+          setDisabledState(element, active);
+        });
+      };
+
+      document.addEventListener("click", (event) => {
+        const blocked = event.target.closest("[data-maintenance-disable]");
+
+        if (blocked && window.lootifyMaintenanceActive) {
+          event.preventDefault();
+          showBotReply("Lootify weekly maintenance is active every Friday 2-4 PM EST. Ordering, Notify Me, and Tweaking service actions are paused until the banner clears.");
+        }
+      });
+
+      window.updateLootifyMaintenanceState();
+      window.setInterval(window.updateLootifyMaintenanceState, 60000);
     });
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -1954,7 +2314,7 @@
         box.innerHTML = `
           <div>
             Logged in as <b>${user.username}</b><br>
-            <button onclick="logout()">Logout</button>
+            <button type="button" onclick="logout()" aria-label="Logout of Discord">Logout</button>
           </div>
         `;
       }
@@ -1965,6 +2325,401 @@
       }
 
       window.logout = logout;
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const marketplaceServices = [
+        {
+          id: "fortnite-coaching",
+          name: "Fortnite 1v1 Coaching",
+          category: "Coaching",
+          subcategory: "Mechanics",
+          price: 15,
+          originalPrice: 20,
+          description: "Improve mechanics, aim, piece control, and game sense with focused 1-on-1 coaching.",
+          icon: "fa-solid fa-headset",
+          badges: ["Featured", "Top Seller"],
+          checkoutUrl: "https://buy.stripe.com/9B6fZh0yOaxQfbe2D55os02",
+          trust: "Recently bought",
+          status: "available"
+        },
+        {
+          id: "ranked-carry",
+          name: "Ranked Carry",
+          category: "Rank Boosting",
+          subcategory: "Competitive",
+          price: 10,
+          originalPrice: 15,
+          description: "Climb ranks faster with experienced players, live guidance, and smarter gameplay.",
+          icon: "fa-solid fa-ranking-star",
+          badges: ["HOT", "Verified"],
+          checkoutUrl: "https://buy.stripe.com/cNifZhgxMgWed36fpR5os00",
+          trust: "Fast delivery",
+          status: "available"
+        },
+        {
+          id: "discord-setup",
+          name: "Discord Server Setup",
+          category: "Items Boost",
+          subcategory: "Community",
+          price: 25,
+          originalPrice: 30,
+          description: "Channels, roles, permissions, ticket flow, and clean server structure for new communities.",
+          icon: "fa-brands fa-discord",
+          badges: ["Featured", "Loot Code"],
+          checkoutUrl: "#loot-codes",
+          trust: "Top Seller",
+          status: "available"
+        },
+        {
+          id: "pc-optimizations",
+          name: "PC Optimizations",
+          category: "Optimizations",
+          subcategory: "Performance",
+          price: 20,
+          originalPrice: 25,
+          description: "Advanced FPS tuning, startup cleanup, and performance setup for smoother gameplay.",
+          icon: "fa-solid fa-gauge-high",
+          badges: ["Featured", "Loot Code"],
+          checkoutUrl: "https://discord.gg/U9put8F4F",
+          trust: "Top Seller",
+          status: "available"
+        },
+        {
+          id: "tweaking",
+          name: "Tweaking",
+          category: "Optimizations",
+          subcategory: "Coming Soon",
+          price: 0,
+          originalPrice: 0,
+          description: "System tweaking service for latency, FPS, and startup tuning. Coming soon.",
+          icon: "fa-solid fa-screwdriver-wrench",
+          badges: ["Soon"],
+          checkoutUrl: "https://discord.gg/U9put8F4F",
+          trust: "Waitlist open",
+          status: "coming-soon"
+        }
+      ];
+
+      const marketplaceContainer = document.getElementById("marketplace-container");
+      const searchInput = document.getElementById("marketplace-search");
+      const categorySelect = document.getElementById("marketplace-category");
+      const themeToggle = document.getElementById("theme-toggle");
+      const referralButton = document.getElementById("referral-button");
+      const loyaltyPoints = document.getElementById("loyalty-points");
+      const discordActivityPanel = document.getElementById("discord-activity-panel");
+
+      if (!marketplaceContainer || !searchInput || !categorySelect) {
+        return;
+      }
+
+      const marketplaceObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              marketplaceObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.14 }
+      );
+
+      function getStoredJson(key, fallback) {
+        try {
+          return JSON.parse(localStorage.getItem(key)) || fallback;
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function setStoredJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+
+      function trackEvent(name, payload = {}) {
+        const analytics = getStoredJson("lootifyAnalytics", []);
+        let userId = "guest";
+
+        try {
+          const savedUser = JSON.parse(localStorage.getItem("lootifyUser"));
+          if (savedUser && savedUser.id) {
+            userId = savedUser.id;
+          }
+        } catch (error) {
+          userId = "guest";
+        }
+
+        analytics.push({
+          name,
+          payload,
+          userId,
+          at: new Date().toISOString()
+        });
+        setStoredJson("lootifyAnalytics", analytics.slice(-120));
+
+        if (typeof window.gtag === "function") {
+          window.gtag("event", name, { ...payload, user_id: userId });
+        }
+
+        if (typeof window.hj === "function") {
+          window.hj("event", name);
+        }
+      }
+
+      function getWishlist() {
+        return getStoredJson("lootifyWishlist", []);
+      }
+
+      function getReviews() {
+        return getStoredJson("lootifyReviews", {});
+      }
+
+      function addLoyaltyPoints(points) {
+        const nextPoints = Number(localStorage.getItem("lootifyLoyaltyPoints") || 0) + points;
+        localStorage.setItem("lootifyLoyaltyPoints", String(nextPoints));
+        renderLoyalty();
+      }
+
+      function renderLoyalty() {
+        if (loyaltyPoints) {
+          loyaltyPoints.textContent = (localStorage.getItem("lootifyLoyaltyPoints") || "0") + " pts";
+        }
+      }
+
+      function getAverageRating(serviceId) {
+        const reviews = getReviews()[serviceId] || [];
+
+        if (!reviews.length) {
+          return "No reviews yet";
+        }
+
+        const average = reviews.reduce((total, review) => total + Number(review.rating), 0) / reviews.length;
+        return average.toFixed(1) + "/5 from " + reviews.length + " review" + (reviews.length === 1 ? "" : "s");
+      }
+
+      function renderCategories() {
+        const categories = [...new Set(marketplaceServices.map((service) => service.category))];
+        categorySelect.innerHTML = '<option value="all">All categories</option>' + categories.map((category) => {
+          return '<option value="' + category + '">' + category + '</option>';
+        }).join("");
+      }
+
+      function renderMarketplace() {
+        const query = searchInput.value.trim().toLowerCase();
+        const category = categorySelect.value;
+        const wishlist = getWishlist();
+
+        const filteredServices = marketplaceServices.filter((service) => {
+          const searchable = [
+            service.name,
+            service.category,
+            service.subcategory,
+            String(service.price),
+            service.description,
+            service.badges.join(" ")
+          ].join(" ").toLowerCase();
+          const matchesQuery = !query || searchable.includes(query);
+          const matchesCategory = category === "all" || service.category === category;
+          return matchesQuery && matchesCategory;
+        });
+
+        if (!filteredServices.length) {
+          marketplaceContainer.innerHTML = '<div class="marketplace-panel">No services match your search.</div>';
+          return;
+        }
+
+        marketplaceContainer.innerHTML = filteredServices.map((service) => {
+          const saved = wishlist.includes(service.id);
+          const price = service.price > 0 ? "$" + service.price : "Coming Soon";
+          const discount = service.originalPrice > service.price && service.price > 0
+            ? "Loot Code eligible: save from $" + service.originalPrice + " with LOOTIFY10"
+            : "Ask Discord support for availability";
+          const checkoutLabel = service.status === "coming-soon" ? "Notify Me" : "Buy Now";
+          const actionClass = service.status === "coming-soon" ? "marketplace-notify" : "marketplace-buy";
+          const badges = service.badges.map((badge) => '<span class="marketplace-badge">' + badge + '</span>').join("");
+
+          return `
+            <article class="card marketplace-card" data-service-id="${service.id}">
+              <div class="marketplace-card-top">
+                <div class="marketplace-icon" role="img" aria-label="${service.category} icon">
+                  <i class="${service.icon}" aria-hidden="true"></i>
+                </div>
+                <div class="marketplace-badges">${badges}</div>
+              </div>
+              <h3 class="service-title">${service.name}</h3>
+              <div class="marketplace-meta">
+                <span>${service.category}</span>
+                <span>${service.subcategory}</span>
+                <span>${service.trust}</span>
+              </div>
+              <p class="service-desc">${service.description}</p>
+              <div class="price">${price}</div>
+              <div class="marketplace-discount">${discount}</div>
+              <div class="marketplace-rating" aria-label="Average rating">${getAverageRating(service.id)}</div>
+              <div class="card-actions">
+                <a class="button button-primary ${actionClass}" href="${service.checkoutUrl}" target="${service.checkoutUrl.startsWith("#") ? "_self" : "_blank"}" rel="noopener noreferrer" aria-label="${checkoutLabel} for ${service.name}" data-service-id="${service.id}" data-maintenance-disable>${checkoutLabel}</a>
+                <button class="wishlist-button ${saved ? "active" : ""}" type="button" aria-label="${saved ? "Remove" : "Save"} ${service.name} wishlist" data-wishlist-id="${service.id}">
+                  <i class="fa-solid fa-heart" aria-hidden="true"></i> ${saved ? "Saved" : "Wishlist"}
+                </button>
+              </div>
+              <form class="marketplace-review" data-review-id="${service.id}">
+                <div class="star-row" aria-label="Choose star rating">
+                  ${[1, 2, 3, 4, 5].map((rating) => '<button class="star-button" type="button" aria-label="' + rating + ' star rating" data-rating="' + rating + '">' + rating + '</button>').join("")}
+                </div>
+                <input class="marketplace-review-input" type="text" placeholder="Leave a quick review" aria-label="Review for ${service.name}" />
+                <button class="marketplace-submit-review" type="submit" aria-label="Submit review for ${service.name}">Submit Review</button>
+              </form>
+            </article>
+          `;
+        }).join("");
+
+        marketplaceContainer.querySelectorAll(".marketplace-card").forEach((card) => marketplaceObserver.observe(card));
+
+        if (typeof window.updateLootifyMaintenanceState === "function") {
+          window.updateLootifyMaintenanceState();
+        }
+      }
+
+      function renderDiscordActivity() {
+        if (!discordActivityPanel) {
+          return;
+        }
+
+        const activeMembers = 42 + Math.floor(Math.random() * 18);
+        const openTickets = 3 + Math.floor(Math.random() * 5);
+        const recentOrders = 8 + Math.floor(Math.random() * 6);
+
+        discordActivityPanel.innerHTML = `
+          <li>${activeMembers} members online</li>
+          <li>${openTickets} support tickets active</li>
+          <li>${recentOrders} recent marketplace actions</li>
+        `;
+      }
+
+      function applyTheme() {
+        const savedTheme = localStorage.getItem("lootifyTheme") || "dark";
+        document.body.classList.toggle("light-mode", savedTheme === "light");
+      }
+
+      marketplaceContainer.addEventListener("click", (event) => {
+        const wishlistButton = event.target.closest("[data-wishlist-id]");
+        const buyLink = event.target.closest(".marketplace-buy");
+        const notifyLink = event.target.closest(".marketplace-notify");
+        const starButton = event.target.closest(".star-button");
+
+        if (wishlistButton) {
+          const serviceId = wishlistButton.dataset.wishlistId;
+          const wishlist = getWishlist();
+          const nextWishlist = wishlist.includes(serviceId)
+            ? wishlist.filter((id) => id !== serviceId)
+            : [...wishlist, serviceId];
+
+          setStoredJson("lootifyWishlist", nextWishlist);
+          addLoyaltyPoints(2);
+          trackEvent("wishlist_toggle", { serviceId });
+          renderMarketplace();
+        }
+
+        if (buyLink) {
+          if (window.lootifyMaintenanceActive) {
+            event.preventDefault();
+            showBotReply("Lootify maintenance is active right now. Order buttons are paused every Friday 2-4 PM EST.");
+            return;
+          }
+
+          const serviceId = buyLink.dataset.serviceId;
+          const service = marketplaceServices.find((item) => item.id === serviceId);
+          localStorage.setItem("lootifyOrderStatus", "Order started for " + (service ? service.name : "marketplace service") + ". Complete checkout, then open Discord for fulfillment.");
+          addLoyaltyPoints(10);
+          trackEvent("purchase_click", { serviceId });
+        }
+
+        if (notifyLink) {
+          event.preventDefault();
+
+          if (window.lootifyMaintenanceActive) {
+            showBotReply("Lootify maintenance is active right now. Notify Me sign-ups are paused every Friday 2-4 PM EST.");
+            return;
+          }
+
+          const serviceId = notifyLink.dataset.serviceId;
+          const notifyList = getStoredJson("lootifyNotifyMe", []);
+
+          if (!notifyList.includes(serviceId)) {
+            notifyList.push(serviceId);
+            setStoredJson("lootifyNotifyMe", notifyList);
+          }
+
+          addLoyaltyPoints(3);
+          trackEvent("notify_me_signup", { serviceId });
+          showBotReply("You're on the Notify Me list for " + serviceId.replace(/-/g, " ") + ". We'll use Discord updates when this service opens.");
+        }
+
+        if (starButton) {
+          const form = starButton.closest(".marketplace-review");
+          form.dataset.selectedRating = starButton.dataset.rating;
+          form.querySelectorAll(".star-button").forEach((button) => {
+            button.classList.toggle("active", Number(button.dataset.rating) <= Number(starButton.dataset.rating));
+          });
+        }
+      });
+
+      marketplaceContainer.addEventListener("submit", (event) => {
+        const form = event.target.closest(".marketplace-review");
+
+        if (!form) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const serviceId = form.dataset.reviewId;
+        const input = form.querySelector(".marketplace-review-input");
+        const rating = Number(form.dataset.selectedRating || 5);
+        const text = input.value.trim() || "Helpful service.";
+        const reviews = getReviews();
+
+        reviews[serviceId] = reviews[serviceId] || [];
+        reviews[serviceId].push({ rating, text, at: new Date().toISOString() });
+        setStoredJson("lootifyReviews", reviews);
+        addLoyaltyPoints(4);
+        trackEvent("review_submit", { serviceId, rating });
+        renderMarketplace();
+      });
+
+      searchInput.addEventListener("input", () => {
+        trackEvent("marketplace_search", { query: searchInput.value });
+        renderMarketplace();
+      });
+
+      categorySelect.addEventListener("change", () => {
+        trackEvent("category_filter", { category: categorySelect.value });
+        renderMarketplace();
+      });
+
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          const nextTheme = document.body.classList.contains("light-mode") ? "dark" : "light";
+          localStorage.setItem("lootifyTheme", nextTheme);
+          applyTheme();
+          trackEvent("theme_toggle", { theme: nextTheme });
+        });
+      }
+
+      if (referralButton) {
+        referralButton.addEventListener("click", () => {
+          addLoyaltyPoints(15);
+          trackEvent("referral_claim");
+        });
+      }
+
+      applyTheme();
+      renderCategories();
+      renderLoyalty();
+      renderDiscordActivity();
+      renderMarketplace();
+      window.setInterval(renderDiscordActivity, 12000);
     });
 
     (function () {
@@ -2021,6 +2776,28 @@
         if (matchedCode) {
           activeDiscount = matchedCode.discount;
           showMessage("✅ Loot Code applied! You unlocked " + activeDiscount + "% off", "success");
+
+          try {
+            const savedUser = JSON.parse(localStorage.getItem("lootifyUser"));
+            const analytics = JSON.parse(localStorage.getItem("lootifyAnalytics")) || [];
+            analytics.push({
+              name: "loot_code_used",
+              payload: { code: enteredCode, discount: activeDiscount },
+              userId: savedUser && savedUser.id ? savedUser.id : "guest",
+              at: new Date().toISOString()
+            });
+            localStorage.setItem("lootifyAnalytics", JSON.stringify(analytics.slice(-120)));
+
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "loot_code_used", { code: enteredCode, discount: activeDiscount });
+            }
+
+            if (typeof window.hj === "function") {
+              window.hj("event", "loot_code_used");
+            }
+          } catch (error) {
+            localStorage.setItem("lootifyLastLootCode", enteredCode);
+          }
         } else {
           activeDiscount = 0;
           showMessage("❌ Invalid Loot Code", "error");
