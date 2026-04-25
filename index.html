@@ -146,6 +146,88 @@
       transform: translateY(-1px);
     }
 
+    .discord-login-widget {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .discord-login-button,
+    .discord-logout-button {
+      border: 0;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background 0.2s ease;
+    }
+
+    .discord-login-button {
+      min-height: 42px;
+      padding: 0 16px;
+      background: linear-gradient(135deg, #5865F2, #7b85ff);
+      color: #ffffff;
+      box-shadow: 0 12px 28px rgba(88, 101, 242, 0.26);
+    }
+
+    .discord-login-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 0 26px rgba(88, 101, 242, 0.42);
+    }
+
+    .discord-profile {
+      display: none;
+      align-items: center;
+      gap: 9px;
+      min-height: 42px;
+      padding: 7px 9px 7px 12px;
+      border: 1px solid rgba(88, 101, 242, 0.32);
+      border-radius: 999px;
+      background: rgba(88, 101, 242, 0.1);
+      color: #eef0ff;
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.12);
+    }
+
+    .discord-profile.is-visible {
+      display: inline-flex;
+    }
+
+    .discord-profile-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #5865F2;
+      box-shadow: 0 0 0 5px rgba(88, 101, 242, 0.16), 0 0 14px rgba(88, 101, 242, 0.5);
+    }
+
+    .discord-profile-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 14px rgba(88, 101, 242, 0.32);
+    }
+
+    .discord-profile-text {
+      font-size: 0.88rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .discord-logout-button {
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .discord-logout-button:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: scale(1.04);
+    }
+
     .hero {
       padding: 88px 0 52px;
       position: relative;
@@ -571,6 +653,153 @@
       font-size: 1rem;
     }
 
+    #lootify-order-box {
+      max-width: 460px;
+      margin: 34px auto 0;
+      color: #f7f9ff;
+    }
+
+    #lootify-order-box,
+    #lootify-order-box * {
+      box-sizing: border-box;
+    }
+
+    #lootify-order-box .lootify-order-card {
+      padding: 24px;
+      border: 1px solid rgba(183, 255, 0, 0.22);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 43, 214, 0.18), transparent 34%),
+        linear-gradient(145deg, #11151d, #151922);
+      box-shadow: var(--shadow), 0 0 28px rgba(183, 255, 0, 0.14);
+    }
+
+    #lootify-order-box .lootify-order-header {
+      margin-bottom: 20px;
+    }
+
+    #lootify-order-box .lootify-tag {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 6px 11px;
+      border: 1px solid rgba(183, 255, 0, 0.2);
+      border-radius: 999px;
+      background: rgba(183, 255, 0, 0.08);
+      color: var(--primary);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #lootify-order-box h3 {
+      margin: 0;
+      font-size: 1.65rem;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    #lootify-order-box label {
+      display: block;
+      margin: 16px 0 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    #lootify-order-box select,
+    #lootify-order-box input {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 13px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      outline: none;
+      background: #0b0d12;
+      color: var(--text);
+      font: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #lootify-order-box select:focus,
+    #lootify-order-box input:focus {
+      border-color: rgba(183, 255, 0, 0.62);
+      box-shadow: 0 0 0 4px rgba(183, 255, 0, 0.11);
+    }
+
+    #lootify-order-box .lootify-code-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    #lootify-order-box .lootify-apply-button {
+      min-width: 94px;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #091000;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(183, 255, 0, 0.24);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    #lootify-order-box .lootify-apply-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+      box-shadow: 0 0 26px rgba(255, 43, 214, 0.35);
+    }
+
+    #lootify-order-box .lootify-price-line,
+    #lootify-order-box .lootify-final-price {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    #lootify-order-box .lootify-price-line {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    #lootify-order-box .lootify-final-price {
+      font-size: 1.12rem;
+      font-weight: 900;
+      transition: box-shadow 0.24s ease, outline-color 0.24s ease, transform 0.24s ease;
+    }
+
+    #lootify-order-box .lootify-final-price span {
+      color: var(--primary);
+    }
+
+    #lootify-order-box .lootify-final-price.lootify-discount-active {
+      outline: 1px solid rgba(183, 255, 0, 0.42);
+      box-shadow: 0 0 24px rgba(183, 255, 0, 0.2);
+      transform: translateY(-1px);
+    }
+
+    #lootify-order-box .lootify-code-message {
+      min-height: 22px;
+      margin: 12px 0 0;
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    #lootify-order-box .lootify-code-message.lootify-success {
+      color: var(--primary);
+    }
+
+    #lootify-order-box .lootify-code-message.lootify-error {
+      color: #ff5f7e;
+    }
+
     footer {
       padding: 28px 0 44px;
       color: var(--muted-2);
@@ -735,7 +964,7 @@
     }
 
     .chatbot-options {
-      padding: 0 18px 18px;
+      padding: 0 18px 12px;
       display: grid;
       gap: 10px;
     }
@@ -763,6 +992,77 @@
     .chatbot-option:disabled {
       cursor: not-allowed;
       opacity: 0.48;
+    }
+
+    .chatbot-actions {
+      padding: 0 18px 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .chatbot-action {
+      border: 1px solid rgba(88, 101, 242, 0.34);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.045);
+      color: #ffffff;
+      padding: 12px 13px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .chatbot-action:hover {
+      transform: translateY(-2px);
+      background: rgba(88, 101, 242, 0.16);
+      border-color: rgba(123, 133, 255, 0.58);
+      box-shadow: 0 0 22px rgba(88, 101, 242, 0.18);
+    }
+
+    .chatbot-input-wrap {
+      display: flex;
+      gap: 10px;
+      padding: 14px 18px 18px;
+      background: rgba(5, 7, 12, 0.36);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .chatbot-input-wrap input {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.26);
+      color: var(--text);
+      outline: none;
+      padding: 0 13px;
+      font: inherit;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .chatbot-input-wrap input:focus {
+      border-color: rgba(88, 101, 242, 0.7);
+      box-shadow: 0 0 0 4px rgba(88, 101, 242, 0.14);
+    }
+
+    .chatbot-send {
+      min-width: 76px;
+      min-height: 44px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #5865F2, #8b5cf6);
+      color: #ffffff;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(88, 101, 242, 0.24);
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .chatbot-send:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 0 26px rgba(88, 101, 242, 0.42);
     }
 
     @keyframes chat-message-in {
@@ -829,6 +1129,10 @@
         font-size: 0.9rem;
       }
 
+      .discord-login-widget {
+        justify-content: flex-end;
+      }
+
       .hero {
         padding-top: 64px;
       }
@@ -870,6 +1174,23 @@
         width: 58px;
         height: 58px;
       }
+
+      .chatbot-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .chatbot-input-wrap {
+        flex-direction: column;
+      }
+
+      #lootify-order-box .lootify-code-row {
+        flex-direction: column;
+      }
+
+      #lootify-order-box .lootify-apply-button {
+        width: 100%;
+      }
     }
 
     @media (max-width: 560px) {
@@ -888,6 +1209,11 @@
       }
 
       .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .discord-login-widget {
         width: 100%;
         justify-content: flex-start;
       }
@@ -931,6 +1257,11 @@
           <a href="#trust">Trust</a>
           <a href="#activity">Activity</a>
           <a href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer">Discord</a>
+        </div>
+        <div id="userBox">
+          <a href="https://discord.com/oauth2/authorize?client_id=1495254927319105576&response_type=token&redirect_uri=https%3A%2F%2Flmfaoaimmm.github.io%2FLootify%2F&scope=identify">
+            <button>Login with Discord</button>
+          </a>
         </div>
       </nav>
     </div>
@@ -1041,6 +1372,56 @@
               <a class="button button-outline" href="https://discord.gg/U9put8F4F" target="_blank" rel="noopener noreferrer">Contact on Discord</a>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="loot-codes">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">Loot Codes</div>
+          <h2 class="section-title">Unlock your Discord setup reward</h2>
+          <p class="section-copy">
+            Choose a Discord server setup package, enter one Loot Code, and see your final price instantly.
+          </p>
+        </div>
+
+        <div id="lootify-order-box" class="reveal">
+          <div class="lootify-order-card">
+            <div class="lootify-order-header">
+              <span class="lootify-tag">Lootify Rewards</span>
+              <h3>Loot Code Checkout</h3>
+            </div>
+
+            <label for="lootify-package-select">Package</label>
+            <select id="lootify-package-select">
+              <option value="10">Starter ($10)</option>
+              <option value="25">Advanced ($25)</option>
+              <option value="50">Pro ($50)</option>
+            </select>
+
+            <div class="lootify-price-line">
+              <span>Base Price:</span>
+              <strong id="lootify-base-price">$10</strong>
+            </div>
+
+            <label for="lootify-code-input">Loot Code</label>
+            <div class="lootify-code-row">
+              <input
+                id="lootify-code-input"
+                type="text"
+                placeholder=" Enter your Loot Code"
+                autocomplete="off"
+              />
+              <button class="lootify-apply-button" id="lootify-apply-button" type="button">Apply</button>
+            </div>
+
+            <p class="lootify-code-message" id="lootify-code-message" aria-live="polite"></p>
+
+            <div class="lootify-final-price" id="lootify-final-price-box">
+              Final Price: <span id="lootify-final-price">$10</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1174,6 +1555,11 @@
       <div class="chatbot-body">
         <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-label="Support bot messages"></div>
         <div class="chatbot-options" id="chatbotOptions" aria-label="Support bot options"></div>
+        <div class="chatbot-actions" id="chatbotActions" aria-label="Support bot actions"></div>
+        <form class="chatbot-input-wrap" id="chatbotInputForm" autocomplete="off">
+          <input id="chatbotInput" type="text" placeholder="Ask anything…" aria-label="Ask Lootify Bot anything" />
+          <button class="chatbot-send" type="submit">Send</button>
+        </form>
       </div>
     </div>
 
@@ -1207,23 +1593,32 @@
     const chatbotClose = document.getElementById("chatbotClose");
     const chatbotMessages = document.getElementById("chatbotMessages");
     const chatbotOptions = document.getElementById("chatbotOptions");
+    const chatbotActions = document.getElementById("chatbotActions");
+    const chatbotInputForm = document.getElementById("chatbotInputForm");
+    const chatbotInput = document.getElementById("chatbotInput");
+    const DISCORD_INVITE_URL = "https://discord.gg/U9put8F4F";
+    const DISCORD_WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE";
 
     const botOptions = [
       {
         label: "View Prices",
-        reply: "Starter: $10\nAdvanced: $25\nPro: $50\nReady to order? Click below or contact me."
+        type: "prices"
       },
       {
         label: "What's Included",
-        reply: "- Channels & categories\n- Roles & permissions\n- Bot setup\n- Clean server design"
+        type: "features"
       },
       {
-        label: "FAQ",
-        reply: "Do I need access? -> Yes (temporary)\nHow long does it take? -> 1-3 days\nCan I request custom features? -> Yes"
+        label: "Loot Codes",
+        type: "lootCodes"
       },
       {
-        label: "Contact Owner",
-        reply: "Contact me on Discord: USERNAME#0000"
+        label: "Start Order",
+        type: "startOrder"
+      },
+      {
+        label: "Live Support",
+        type: "liveSupport"
       }
     ];
 
@@ -1243,6 +1638,35 @@
       return message;
     }
 
+    function clearChatbotActions() {
+      chatbotActions.innerHTML = "";
+    }
+
+    function addActionButton(label, handler) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "chatbot-action";
+      button.textContent = label;
+      button.addEventListener("click", handler);
+      chatbotActions.appendChild(button);
+      scrollChatToLatest();
+      return button;
+    }
+
+    function sendWebhook(content) {
+      const isPlaceholder = !DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === "YOUR_WEBHOOK_URL_HERE";
+
+      if (isPlaceholder) {
+        return;
+      }
+
+      fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content })
+      }).catch(() => {});
+    }
+
     function setOptions(disabledLabels = []) {
       chatbotOptions.innerHTML = "";
 
@@ -1257,13 +1681,133 @@
       });
     }
 
-    function showBotReply(text) {
-      const typingMessage = addMessage("Support Bot is typing...", "bot", "typing");
+    function showStartOrderAction() {
+      clearChatbotActions();
+      addActionButton("Start Order", () => {
+        const selectedPackage = document.getElementById("lootify-package-select");
+        const lootCode = document.getElementById("lootify-code-input");
+        const packageText = selectedPackage
+          ? selectedPackage.options[selectedPackage.selectedIndex].text
+          : "Not selected";
+        const codeText = lootCode && lootCode.value.trim() ? lootCode.value.trim().toUpperCase() : "None";
+        let discordUser = "Not collected";
+
+        try {
+          const storedDiscordUser = JSON.parse(localStorage.getItem("lootifyUser"));
+
+          if (storedDiscordUser && storedDiscordUser.username && storedDiscordUser.id) {
+            discordUser = storedDiscordUser.username + " (" + storedDiscordUser.id + ")";
+          }
+        } catch (error) {
+          discordUser = "Not collected";
+        }
+
+        addMessage("Start Order", "user");
+        showBotReply("Pick your package in the Loot Code checkout, apply any Loot Code, then continue with your order. Advanced is the best value for most communities.", {
+          supportActions: false
+        });
+        sendWebhook("New Lootify Order Started:\nPackage: " + packageText + "\nLoot Code: " + codeText + "\nDiscord User: " + discordUser);
+
+        const orderBox = document.getElementById("loot-codes");
+        if (orderBox) {
+          orderBox.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+
+    function showDiscordAction() {
+      addActionButton("Open Discord", () => {
+        window.open(DISCORD_INVITE_URL, "_blank", "noopener,noreferrer");
+      });
+    }
+
+    function showLiveSupportChoices() {
+      clearChatbotActions();
+
+      ["New server setup", "Custom request", "General question"].forEach((supportType) => {
+        addActionButton(supportType, () => {
+          addMessage(supportType, "user");
+          sendWebhook("Lootify Live Support Request:\nType: " + supportType);
+          showBotReply("Click below to contact us on Discord.", { discordAction: true });
+        });
+      });
+    }
+
+    function smartReply(input) {
+      const text = input.toLowerCase();
+
+      if (/\b(price|cost|package|pay|pricing|payment)\b/.test(text)) {
+        return {
+          text: "Starter is $10, Advanced is $25, and Pro is $50. Advanced is the best value for most communities. You can also use a Loot Code before checkout.",
+          startOrder: true
+        };
+      }
+
+      if (/\b(bot|bots|features|included|include|role|roles|channel|channels|permission|permissions)\b/.test(text)) {
+        return {
+          text: "Lootify server setups can include channels, roles, permissions, bot setup, and a clean Discord design."
+        };
+      }
+
+      if (/\b(custom|special|unique)\b/.test(text)) {
+        return {
+          text: "Custom requests are supported. Tell us what you need, or use Live Support so we can help with the details.",
+          supportActions: true
+        };
+      }
+
+      if (/\b(time|delivery|long|wait|days)\b/.test(text)) {
+        return {
+          text: "Most Lootify orders take 1-3 days depending on package size and custom requests."
+        };
+      }
+
+      if (/\b(code|discount|loot code|loot codes|lootcode)\b/.test(text)) {
+        return {
+          text: "Loot Codes unlock discounts on Lootify. Try LOOTIFY10 or LOOTIFYDROP when ordering."
+        };
+      }
+
+      if (/\b(order|buy|start|checkout|purchase)\b/.test(text)) {
+        return {
+          text: "Advanced is the best value for most communities. You can also use a Loot Code before checkout. Start your order when you're ready.",
+          startOrder: true
+        };
+      }
+
+      if (/\b(support|help|owner|human|person|discord|contact)\b/.test(text)) {
+        return {
+          text: "Live Support can help with new server setups, custom requests, and general questions.",
+          supportActions: true
+        };
+      }
+
+      return {
+        text: "I'm not fully sure yet, but I can help with prices, Loot Codes, orders, features, or live support."
+      };
+    }
+
+    function showBotReply(reply, options = {}) {
+      const replyData = typeof reply === "string" ? { text: reply, ...options } : reply;
+      const typingMessage = addMessage("Lootify Bot is typing…", "bot", "typing");
 
       typingTimer = window.setTimeout(() => {
         typingMessage.remove();
-        addMessage(text, "bot");
-      }, 650);
+        addMessage(replyData.text, "bot");
+        clearChatbotActions();
+
+        if (replyData.startOrder) {
+          showStartOrderAction();
+        }
+
+        if (replyData.supportActions) {
+          showLiveSupportChoices();
+        }
+
+        if (replyData.discordAction) {
+          showDiscordAction();
+        }
+      }, 500);
     }
 
     function handleOptionClick(option, button) {
@@ -1273,7 +1817,39 @@
 
       addMessage(option.label, "user");
       button.disabled = true;
-      showBotReply(option.reply);
+
+      if (option.type === "prices") {
+        showBotReply(smartReply("price package cost"));
+      }
+
+      if (option.type === "features") {
+        showBotReply(smartReply("features included bots"));
+      }
+
+      if (option.type === "lootCodes") {
+        showBotReply("Loot Codes unlock discounts on Lootify. Try LOOTIFY10 or LOOTIFYDROP when ordering.");
+      }
+
+      if (option.type === "startOrder") {
+        showBotReply(smartReply("start order buy"));
+      }
+
+      if (option.type === "liveSupport") {
+        showBotReply(smartReply("support human owner"));
+      }
+    }
+
+    function sendSmartMessage() {
+      const input = chatbotInput.value.trim();
+
+      if (!input) {
+        return;
+      }
+
+      window.clearTimeout(typingTimer);
+      addMessage(input, "user");
+      chatbotInput.value = "";
+      showBotReply(smartReply(input));
     }
 
     function startChatbot() {
@@ -1282,7 +1858,7 @@
       }
 
       chatbotStarted = true;
-      addMessage("Hey! Need help setting up your Discord server?", "bot");
+      addMessage("Hey! Need help setting up your Discord server? Ask about prices, Loot Codes, packages, or live support.", "bot");
       setOptions();
     }
 
@@ -1310,11 +1886,163 @@
 
     chatbotClose.addEventListener("click", closeChatbot);
 
+    chatbotInputForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      sendSmartMessage();
+    });
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && chatbot.classList.contains("open")) {
         closeChatbot();
       }
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initDiscordLogin();
+
+      async function initDiscordLogin() {
+        console.log("INIT LOGIN");
+
+        const hash = window.location.hash;
+        console.log("HASH:", window.location.hash);
+
+        if (hash.includes("access_token")) {
+          const params = new URLSearchParams(hash.replace("#", ""));
+          const token = params.get("access_token");
+          console.log("TOKEN:", token);
+
+          if (token) {
+            try {
+              const response = await fetch("https://discord.com/api/users/@me", {
+                headers: {
+                  Authorization: "Bearer " + token
+                }
+              });
+
+              if (!response.ok) {
+                throw new Error("Discord user fetch failed");
+              }
+
+              const user = await response.json();
+              console.log("USER OBJECT:", user);
+
+              localStorage.setItem("lootifyUser", JSON.stringify(user));
+              displayUser(user);
+              history.replaceState({}, document.title, window.location.pathname);
+            } catch (error) {
+              console.error("Discord login failed:", error);
+            }
+          }
+        }
+
+        const saved = localStorage.getItem("lootifyUser");
+
+        if (saved) {
+          console.log("FOUND SAVED USER");
+          displayUser(JSON.parse(saved));
+        }
+      }
+
+      function displayUser(user) {
+        const box = document.getElementById("userBox");
+
+        if (!box) {
+          console.error("userBox NOT FOUND");
+          return;
+        }
+
+        box.innerHTML = `
+          <div>
+            Logged in as <b>${user.username}</b><br>
+            <button onclick="logout()">Logout</button>
+          </div>
+        `;
+      }
+
+      function logout() {
+        localStorage.removeItem("lootifyUser");
+        window.location.reload();
+      }
+
+      window.logout = logout;
+    });
+
+    (function () {
+      const lootCodes = {
+        LOOTIFY10: { discount: 10 },
+        LOOTIFYDROP: { discount: 15 }
+      };
+
+      const container = document.getElementById("lootify-order-box");
+      if (!container) {
+        return;
+      }
+
+      const packageSelect = container.querySelector("#lootify-package-select");
+      const basePrice = container.querySelector("#lootify-base-price");
+      const codeInput = container.querySelector("#lootify-code-input");
+      const applyButton = container.querySelector("#lootify-apply-button");
+      const codeMessage = container.querySelector("#lootify-code-message");
+      const finalPrice = container.querySelector("#lootify-final-price");
+      const finalPriceBox = container.querySelector("#lootify-final-price-box");
+
+      let activeDiscount = 0;
+
+      function formatPrice(amount) {
+        return "$" + amount.toFixed(2).replace(".00", "");
+      }
+
+      function updatePrice() {
+        const selectedPrice = Number(packageSelect.value);
+        const discountedPrice = selectedPrice - selectedPrice * (activeDiscount / 100);
+
+        basePrice.textContent = formatPrice(selectedPrice);
+        finalPrice.textContent = formatPrice(discountedPrice);
+        finalPriceBox.classList.toggle("lootify-discount-active", activeDiscount > 0);
+      }
+
+      function showMessage(text, status) {
+        codeMessage.textContent = text;
+        codeMessage.classList.remove("lootify-success", "lootify-error");
+
+        if (status === "success") {
+          codeMessage.classList.add("lootify-success");
+        }
+
+        if (status === "error") {
+          codeMessage.classList.add("lootify-error");
+        }
+      }
+
+      function applyLootCode() {
+        const enteredCode = codeInput.value.trim().toUpperCase();
+        const matchedCode = lootCodes[enteredCode];
+
+        if (matchedCode) {
+          activeDiscount = matchedCode.discount;
+          showMessage("✅ Loot Code applied! You unlocked " + activeDiscount + "% off", "success");
+        } else {
+          activeDiscount = 0;
+          showMessage("❌ Invalid Loot Code", "error");
+        }
+
+        updatePrice();
+      }
+
+      packageSelect.addEventListener("change", updatePrice);
+      applyButton.addEventListener("click", applyLootCode);
+      codeInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          applyLootCode();
+        }
+      });
+
+      updatePrice();
+    })();
+
+    function handleLootCodeHelp() {
+      addMessage(" Got a Loot Code? Enter it on the site to unlock your discount!", "bot");
+    }
   </script>
 </body>
 </html>
