@@ -1,25 +1,1011 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lootify | Dynamic Gaming Services Marketplace, Loot Codes & Discord Support</title>
+  <title>Lootify | Gaming Services Marketplace</title>
   <meta
     name="description"
-    content="Browse Lootify gaming services with live marketplace filters, Loot Code discounts, Discord support, reviews, wishlist saves, secure Stripe checkout, and trusted seller badges."
+    content="Lootify is a modern gaming services marketplace with loot codes, Discord login, wishlist saves, reviews, loyalty XP, and order tools."
   />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --bg: #070b09;
+      --bg-soft: #0c120f;
+      --panel: #101812;
+      --panel-2: #141f18;
+      --line: rgba(195, 255, 75, 0.18);
+      --line-soft: rgba(255, 255, 255, 0.08);
+      --text: #f6fff7;
+      --muted: #a9b9ad;
+      --muted-2: #748277;
+      --green: #b7ff2a;
+      --green-2: #63ff86;
+      --cyan: #5cf7ff;
+      --pink: #ff4fd8;
+      --yellow: #ffd166;
+      --red: #ff6b6b;
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.36);
+      --radius: 18px;
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(183, 255, 42, 0.16), transparent 28%),
+        radial-gradient(circle at 86% 6%, rgba(92, 247, 255, 0.12), transparent 24%),
+        linear-gradient(180deg, #050805 0%, var(--bg) 45%, #050805 100%);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 78%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .maintenance-banner {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(183, 255, 42, 0.2);
+      background: rgba(9, 15, 10, 0.94);
+      color: var(--green);
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 41px;
+      z-index: 40;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(7, 11, 9, 0.84);
+      backdrop-filter: blur(18px);
+    }
+
+    .navbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, var(--green), var(--green-2));
+      box-shadow: 0 0 28px rgba(183, 255, 42, 0.34);
+      position: relative;
+    }
+
+    .logo-mark::after {
+      content: "L";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #061008;
+      font-weight: 950;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 0 16px;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(183, 255, 42, 0.35);
+    }
+
+    .button-primary {
+      color: #071008;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      box-shadow: 0 12px 32px rgba(183, 255, 42, 0.18);
+    }
+
+    .button-secondary {
+      border-color: var(--line);
+      background: rgba(183, 255, 42, 0.08);
+    }
+
+    .button-danger {
+      border-color: rgba(255, 107, 107, 0.32);
+      background: rgba(255, 107, 107, 0.12);
+      color: #ffdede;
+    }
+
+    .icon-button {
+      width: 44px;
+      height: 44px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 12px;
+      border: 1px solid var(--line-soft);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero {
+      padding: 76px 0 52px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(183, 255, 42, 0.8);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin: 14px 0 16px;
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    h1 span,
+    .section-title span {
+      color: var(--green);
+      text-shadow: 0 0 30px rgba(183, 255, 42, 0.28);
+    }
+
+    .hero-subtitle {
+      margin: 0 0 14px;
+      font-size: clamp(1.35rem, 3vw, 2.15rem);
+      font-weight: 850;
+    }
+
+    .hero-description {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .hero-actions,
+    .tool-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .trust-bullets {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .trust-bullet,
+    .mini-stat,
+    .card,
+    .panel {
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035));
+      box-shadow: var(--shadow);
+    }
+
+    .trust-bullet {
+      padding: 13px 14px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .trust-bullet strong {
+      color: var(--green);
+    }
+
+    .hero-panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(183, 255, 42, 0.16), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
+      padding: 22px;
+      box-shadow: var(--shadow), 0 0 60px rgba(183, 255, 42, 0.1);
+    }
+
+    .hero-panel-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(183, 255, 42, 0.24);
+      color: var(--green);
+      background: rgba(183, 255, 42, 0.1);
+      padding: 0 10px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tag-hot {
+      border-color: rgba(255, 79, 216, 0.32);
+      color: #ffd6f5;
+      background: rgba(255, 79, 216, 0.13);
+    }
+
+    .tag-soon {
+      border-color: rgba(255, 209, 102, 0.32);
+      color: var(--yellow);
+      background: rgba(255, 209, 102, 0.12);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px var(--green);
+    }
+
+    .hero-package {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .hero-package h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .hero-package p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .price {
+      color: var(--green);
+      font-weight: 950;
+      font-size: 1.2rem;
+    }
+
+    section {
+      padding: 56px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      margin: 8px 0 8px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .stats-grid,
+    .trust-grid,
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-stat {
+      padding: 18px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      color: var(--green);
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .market-tools {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0 14px;
+      outline: none;
+    }
+
+    .textarea {
+      min-height: 118px;
+      padding-top: 12px;
+      resize: vertical;
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      border-color: rgba(183, 255, 42, 0.55);
+      box-shadow: 0 0 0 4px rgba(183, 255, 42, 0.1);
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(183, 255, 42, 0.3);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #081008;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      font-size: 1.4rem;
+      font-weight: 950;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--yellow);
+      font-weight: 850;
+      margin-bottom: 14px;
+    }
+
+    .rating span {
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 0.9rem;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .save-button.saved {
+      color: #071008;
+      background: var(--green);
+    }
+
+    .checkout-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+    }
+
+    .price-line,
+    .xp-line,
+    .leader-row,
+    .poll-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .price-line {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--muted);
+    }
+
+    .price-line strong {
+      color: var(--text);
+    }
+
+    .code-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .message {
+      min-height: 24px;
+      margin: 0;
+      color: var(--green);
+      font-weight: 750;
+    }
+
+    .message.error {
+      color: var(--red);
+    }
+
+    .discord-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid rgba(88, 101, 242, 0.3);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(88, 101, 242, 0.18), rgba(183, 255, 42, 0.07)),
+        rgba(255, 255, 255, 0.04);
+      padding: 16px;
+    }
+
+    .avatar,
+    .avatar-fallback {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #5865f2, var(--green));
+    }
+
+    .avatar-fallback {
+      display: grid;
+      place-items: center;
+      color: #071008;
+      font-weight: 950;
+    }
+
+    .discord-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .discord-card strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .progress-wrap {
+      height: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      box-shadow: 0 0 20px rgba(183, 255, 42, 0.35);
+      transition: width 260ms ease;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .achievement {
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .achievement.unlocked {
+      color: #071008;
+      background: var(--green);
+    }
+
+    .leader-row,
+    .poll-option {
+      border-bottom: 1px solid var(--line-soft);
+      padding: 11px 0;
+    }
+
+    .leader-row:last-child,
+    .poll-option:last-child {
+      border-bottom: 0;
+    }
+
+    .poll-option button {
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 8px 10px;
+      font-weight: 800;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .quote {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .cta {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(183, 255, 42, 0.18), rgba(92, 247, 255, 0.08)),
+        rgba(255, 255, 255, 0.04);
+      padding: clamp(24px, 5vw, 44px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    footer {
+      border-top: 1px solid var(--line-soft);
+      color: var(--muted);
+      padding: 26px 0;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .chatbot {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 60;
+      width: min(380px, calc(100vw - 36px));
+    }
+
+    .chat-window {
+      display: none;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(10, 15, 12, 0.96);
+      box-shadow: var(--shadow), 0 0 46px rgba(183, 255, 42, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .chat-window.open {
+      display: block;
+    }
+
+    .chat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line-soft);
+      padding: 14px;
+    }
+
+    .chat-head strong {
+      display: block;
+    }
+
+    .chat-head span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .chat-log {
+      height: 320px;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-bubble {
+      max-width: 88%;
+      border-radius: 16px;
+      padding: 10px 12px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      color: #061008;
+      background: var(--green);
+    }
+
+    .chat-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 14px 12px;
+    }
+
+    .chat-option {
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .chat-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      border-top: 1px solid var(--line-soft);
+      padding: 12px;
+    }
+
+    .chat-toggle {
+      margin-left: auto;
+      min-width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      color: #071008;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      box-shadow: 0 14px 34px rgba(183, 255, 42, 0.22);
+      font-size: 1.4rem;
+      font-weight: 950;
+    }
+
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .typing i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: bounce 900ms infinite ease-in-out;
+    }
+
+    .typing i:nth-child(2) {
+      animation-delay: 120ms;
+    }
+
+    .typing i:nth-child(3) {
+      animation-delay: 240ms;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 520ms ease, transform 520ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 80;
+      max-width: min(420px, calc(100vw - 32px));
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--text);
+      background: rgba(10, 15, 12, 0.96);
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+      }
+      40% {
+        transform: translateY(-4px);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .checkout-panel,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid,
+      .trust-grid,
+      .dashboard-grid,
+      .service-grid,
+      .reviews-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav-wrap {
+        top: 62px;
+      }
+
+      .navbar {
+        min-height: auto;
+        padding: 14px 0;
+        align-items: flex-start;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .trust-bullets,
+      .market-tools,
+      .stats-grid,
+      .trust-grid,
+      .dashboard-grid,
+      .service-grid,
+      .reviews-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head,
+      .footer-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .discord-card,
+      .card-actions,
+      .code-row {
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .icon-button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div id="maintenance-banner" class="maintenance-banner" role="status" aria-live="polite">
-    âš ï¸ Lootify Weekly Maintenance: The site may have limited functionality every Friday 2â€“4 PM EST.
+  <div class="maintenance-banner" role="status" aria-live="polite">
+    Lootify Weekly Maintenance: Limited functionality every Friday 2–4 PM EST.
   </div>
 
   <div class="nav-wrap">
@@ -30,15 +1016,14 @@
           <span>Lootify</span>
         </a>
         <div class="nav-links">
-          <a href="#services">Services</a>
-          <a href="#trust">Trust</a>
-          <a href="#services">Marketplace</a>
-          <a href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join the Lootify Discord server">Discord</a>
+          <a href="#marketplace">Marketplace</a>
+          <a href="#loot-codes">Loot Codes</a>
+          <a href="#loyalty">Loyalty</a>
+          <a href="#dashboard">Dashboard</a>
+          <a href="https://discord.gg/lootifyy" target="_blank" rel="noopener noreferrer">Discord</a>
         </div>
-        <div id="userBox" class="discord-auth-card">
-          <a href="https://discord.com/oauth2/authorize?client_id=1495254927319105576&response_type=token&redirect_uri=https%3A%2F%2Flmfaoaimmm.github.io%2FLootify%2F&scope=identify">
-            <button type="button" aria-label="Login with Discord">Login with Discord</button>
-          </a>
+        <div class="nav-actions">
+          <a class="button button-secondary" href="#discord-login">Login</a>
         </div>
       </nav>
     </div>
@@ -48,332 +1033,860 @@
     <section class="hero">
       <div class="container">
         <div class="hero-grid">
-          <div class="hero-copy reveal">
-            <div class="eyebrow">Trusted â€¢ Fast â€¢ Reliable</div>
+          <div class="reveal">
+            <div class="eyebrow">Neon gaming services</div>
             <h1><span>Lootify</span></h1>
-            <p class="hero-subtitle">Gaming services made simple</p>
+            <p class="hero-subtitle">Fast packages, trusted sellers, clean Discord order flow.</p>
             <p class="hero-description">
-              Buy gaming services instantly from trusted sellers. Fast delivery, secure payments, and simple Discord-based order handling.
+              Browse services, save favorites, apply Loot Codes, track loyalty XP, and start your order from one responsive single-page marketplace.
             </p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#services" aria-label="Browse Lootify marketplace services">Browse Services</a>
-              <a class="button button-secondary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join the Lootify Discord server">Join Discord</a>
+              <a class="button button-primary" href="#marketplace">Browse Marketplace</a>
+              <a class="button button-secondary" href="https://discord.gg/lootifyy" target="_blank" rel="noopener noreferrer">Join Discord</a>
             </div>
-            <div class="trust-bullets" aria-label="Key trust indicators">
-              <div class="trust-bullet"><strong>âœ”</strong> Trusted Sellers</div>
-              <div class="trust-bullet"><strong>âœ”</strong> Secure Payments</div>
-              <div class="trust-bullet"><strong>âœ”</strong> Instant Discord Delivery</div>
+            <div class="trust-bullets" aria-label="Lootify highlights">
+              <div class="trust-bullet"><strong>Fast</strong> order starts</div>
+              <div class="trust-bullet"><strong>Secure</strong> checkout placeholders</div>
+              <div class="trust-bullet"><strong>Saved</strong> wishlist picks</div>
             </div>
           </div>
 
-          <aside class="hero-panel reveal" aria-label="Marketplace highlights">
+          <aside class="hero-panel reveal" aria-label="Featured marketplace items">
             <div class="hero-panel-top">
               <div>
-                <h2 class="panel-title">Fast, direct order flow</h2>
-                <p class="panel-text">Choose a service, pay securely, then finish everything inside Discord.</p>
+                <div class="eyebrow">Live drops</div>
+                <h2 class="section-title">Featured <span>HOT</span></h2>
+                <p class="section-copy">Use LOOTIFYDROP for 15% off eligible orders.</p>
               </div>
-              <div class="status-pill">Live</div>
+              <span class="tag tag-hot"><span class="live-dot"></span> Hot</span>
             </div>
-
-            <div class="mini-list">
-              <div class="mini-item">
-                <div class="mini-icon">1</div>
-                <div>
-                  <strong>Pick a service</strong>
-                  <span>Coaching, carry, or optimization</span>
-                </div>
-                <div class="mini-price">$10+</div>
+            <div class="hero-package">
+              <div>
+                <h3>Rank Boost Bundle</h3>
+                <p>Priority queue, Discord updates, verified seller.</p>
               </div>
-              <div class="mini-item">
-                <div class="mini-icon">2</div>
-                <div>
-                  <strong>Pay securely</strong>
-                  <span>Quick checkout with Stripe</span>
-                </div>
-                <div class="mini-price">Safe</div>
+              <div class="price">$29</div>
+            </div>
+            <div class="hero-package">
+              <div>
+                <h3>Starter Coins Pack</h3>
+                <p>Clean handoff and quick confirmation.</p>
               </div>
-              <div class="mini-item">
-                <div class="mini-icon">3</div>
-                <div>
-                  <strong>Get help instantly</strong>
-                  <span>Open a Discord ticket after purchase</span>
-                </div>
-                <div class="mini-price">Fast</div>
+              <div class="price">$12</div>
+            </div>
+            <div class="hero-package">
+              <div>
+                <h3>PC Optimization</h3>
+                <p>Tweaking service launching soon.</p>
               </div>
+              <span class="tag tag-soon">Coming Soon</span>
             </div>
           </aside>
         </div>
       </div>
     </section>
 
-    <section class="section" id="services">
+    <section aria-labelledby="stats-title">
       <div class="container">
-        <div class="reveal">
-          <div class="eyebrow">Marketplace Services</div>
-          <h2 class="section-title">Browse featured gaming services</h2>
-          <p class="section-copy">
-            Trusted offers with simple checkout, fast delivery, and direct support through Discord.
-          </p>
-        </div>
-
-        <div class="marketplace-toolbar reveal" aria-label="Marketplace filters">
-          <input id="marketplace-search" class="marketplace-search" type="search" placeholder="Search by service, category, or price" aria-label="Search marketplace services" />
-          <select id="marketplace-category" class="marketplace-select" aria-label="Filter marketplace category">
-            <option value="all">All categories</option>
-          </select>
-          <button id="theme-toggle" class="marketplace-toggle" type="button" aria-label="Toggle light or dark mode">
-            <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
-            Theme
-          </button>
-        </div>
-
-        <div class="marketplace-layout">
-          <div id="marketplace-container" aria-live="polite"></div>
-
-          <aside class="marketplace-side" aria-label="Marketplace status panels">
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-brands fa-discord" aria-hidden="true"></i> Live Discord Activity</h3>
-              <ul id="discord-activity-panel"></ul>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-trophy" aria-hidden="true"></i> Loyalty Rewards</h3>
-              <span class="loyalty-points" id="loyalty-points">0 pts</span>
-              <div class="xp-track" aria-label="XP progress"><div class="xp-fill" id="xp-fill"></div></div>
-              <p id="xp-status">0 XP toward the next reward.</p>
-              <p>Earn points when you start purchases, save services, or refer a friend.</p>
-              <button class="marketplace-toggle" id="referral-button" type="button" aria-label="Claim referral loyalty points">Claim Referral Points</button>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-user-astronaut" aria-hidden="true"></i> Profile & Badges</h3>
-              <p id="profile-summary">Guest profile. Login with Discord for personalization.</p>
-              <div class="achievement-list" id="achievement-list" aria-label="User achievements"></div>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-ranking-star" aria-hidden="true"></i> Leaderboards</h3>
-              <ul id="leaderboard-list"></ul>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-video" aria-hidden="true"></i> Streamer Dashboard</h3>
-              <p>Code usage: <span class="panel-highlight" id="streamer-code-usage">0</span></p>
-              <p>Referrals tracked: <span class="panel-highlight" id="streamer-referrals">0</span></p>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Smart Pick</h3>
-              <p id="ai-recommendation">Recommendations update as you use Lootify.</p>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i> Custom Request</h3>
-              <form id="custom-request-form" class="marketplace-form">
-                <input name="name" type="text" placeholder="Request title" aria-label="Custom request title" required />
-                <select name="category" aria-label="Custom request category">
-                  <option>Coaching</option>
-                  <option>Optimizations</option>
-                  <option>Discord Setup</option>
-                  <option>Bundle</option>
-                </select>
-                <textarea name="details" rows="3" placeholder="Describe what you need" aria-label="Custom request details" required></textarea>
-                <button type="submit" aria-label="Submit custom request">Submit Request</button>
-              </form>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-square-poll-vertical" aria-hidden="true"></i> Community Poll</h3>
-              <p>Vote for the next feature drop.</p>
-              <div class="poll-grid" id="community-poll">
-                <button class="poll-option" type="button" data-poll-vote="Forum boards" aria-label="Vote for forum boards">Forum</button>
-                <button class="poll-option" type="button" data-poll-vote="Friend lists" aria-label="Vote for friend lists">Friends</button>
-                <button class="poll-option" type="button" data-poll-vote="Giveaways" aria-label="Vote for giveaways">Giveaways</button>
-              </div>
-              <p id="poll-result">No votes yet.</p>
-            </div>
-
-            <div class="marketplace-panel reveal">
-              <h3><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Trust Signals</h3>
-              <ul class="community-feed" id="testimonial-feed">
-                <li>Recently bought: Ranked Carry</li>
-                <li>Top Seller: Fortnite 1v1 Coaching</li>
-                <li>Loot Code highlight: LOOTIFY10</li>
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="loot-codes">
-      <div class="container">
-        <div class="reveal">
-          <div class="eyebrow">Loot Codes</div>
-          <h2 class="section-title">Unlock your Discord setup reward</h2>
-          <p class="section-copy">
-            Choose a Discord server setup package, enter one Loot Code, and see your final price instantly.
-          </p>
-        </div>
-
-        <div id="lootify-order-box" class="reveal">
-          <div class="lootify-order-card">
-            <div class="lootify-order-header">
-              <span class="lootify-tag">Lootify Rewards</span>
-              <h3>Loot Code Checkout</h3>
-            </div>
-
-            <label for="lootify-package-select">Package</label>
-            <select id="lootify-package-select">
-              <option value="10">Starter ($10)</option>
-              <option value="25">Advanced ($25)</option>
-              <option value="50">Pro ($50)</option>
-            </select>
-
-            <div class="lootify-price-line">
-              <span>Base Price:</span>
-              <strong id="lootify-base-price">$10</strong>
-            </div>
-
-            <label for="lootify-code-input">Loot Code</label>
-            <div class="lootify-code-row">
-              <input
-                id="lootify-code-input"
-                type="text"
-                placeholder=" Enter your Loot Code"
-                autocomplete="off"
-              />
-              <button class="lootify-apply-button" id="lootify-apply-button" type="button" aria-label="Apply Loot Code">Apply</button>
-            </div>
-
-            <p class="lootify-code-message" id="lootify-code-message" aria-live="polite"></p>
-
-            <div class="lootify-final-price" id="lootify-final-price-box">
-              Final Price: <span id="lootify-final-price">$10</span>
-            </div>
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Marketplace pulse</div>
+            <h2 id="stats-title" class="section-title">Stats that feel <span>active</span></h2>
           </div>
+          <p class="section-copy">A compact trust snapshot for visitors scanning before they order.</p>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="trust">
-      <div class="container">
-        <div class="reveal">
-          <div class="eyebrow">Trust</div>
-          <h2 class="section-title">Why Choose Lootify?</h2>
-          <p class="section-copy">
-            A simple marketplace flow built for speed, clarity, and trusted service delivery.
-          </p>
-        </div>
-
-        <div class="trust-grid">
-          <div class="trust-item reveal">
-            <div class="trust-item-icon">âœ”</div>
-            <h3>Verified Sellers</h3>
-            <p>Manually reviewed service providers for a more reliable buying experience.</p>
-          </div>
-          <div class="trust-item reveal">
-            <div class="trust-item-icon">S</div>
-            <h3>Secure Payments</h3>
-            <p>Stripe-powered checkout for fast and secure payment handling.</p>
-          </div>
-          <div class="trust-item reveal">
-            <div class="trust-item-icon">D</div>
-            <h3>Fast Delivery</h3>
-            <p>Orders are handled quickly through Discord for direct communication.</p>
-          </div>
-          <div class="trust-item reveal">
-            <div class="trust-item-icon">+</div>
-            <h3>Simple Process</h3>
-            <p>No account required. Pick a service, pay, and open a ticket.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="stats">
-      <div class="container">
-        <div class="reveal">
-          <div class="eyebrow">Performance</div>
-          <h2 class="section-title">Built around fast, trusted fulfillment</h2>
-        </div>
-
         <div class="stats-grid">
-          <div class="stat-card reveal">
-            <span class="stat-value">100+</span>
-            <span class="stat-label">Orders Completed</span>
+          <div class="mini-stat reveal"><strong>1.8K+</strong><span>Completed orders</span></div>
+          <div class="mini-stat reveal"><strong>4.9</strong><span>Average rating</span></div>
+          <div class="mini-stat reveal"><strong>24/7</strong><span>Discord ticket intake</span></div>
+          <div class="mini-stat reveal"><strong>12K</strong><span>Community XP earned</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="discord-login" aria-labelledby="discord-title">
+      <div class="container">
+        <div class="checkout-panel">
+          <div class="panel reveal">
+            <div class="eyebrow">Discord access</div>
+            <h2 id="discord-title" class="section-title">Clean login <span>card</span></h2>
+            <p class="section-copy">
+              Lootify uses Discord OAuth token flow and stores your profile locally as lootifyUser.
+            </p>
           </div>
-          <div class="stat-card reveal">
-            <span class="stat-value">50+</span>
-            <span class="stat-label">Active Customers</span>
+          <div id="discord-card" class="discord-card reveal" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="marketplace" aria-labelledby="marketplace-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Browse packages</div>
+            <h2 id="marketplace-title" class="section-title">Marketplace <span>services</span></h2>
           </div>
-          <div class="stat-card reveal">
-            <span class="stat-value">99%</span>
-            <span class="stat-label">Satisfaction</span>
+          <p class="section-copy">Search services, filter categories, save favorites, and start orders without leaving the page.</p>
+        </div>
+
+        <div class="market-tools reveal">
+          <input id="searchInput" class="input" type="search" placeholder="Search services..." aria-label="Search marketplace services" />
+          <select id="categoryFilter" class="select" aria-label="Filter marketplace category">
+            <option value="All">All categories</option>
+          </select>
+        </div>
+
+        <div id="serviceGrid" class="service-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="loot-codes" aria-labelledby="codes-title">
+      <div class="container">
+        <div class="checkout-panel">
+          <div class="panel reveal">
+            <div class="eyebrow">Loot Codes</div>
+            <h2 id="codes-title" class="section-title">Apply a <span>discount</span></h2>
+            <p class="section-copy">Valid codes: LOOTIFY10 gives 10% off. LOOTIFYDROP gives 15% off.</p>
+            <div class="code-row">
+              <input id="lootCodeInput" class="input" type="text" placeholder="Enter Loot Code" aria-label="Enter Loot Code" />
+              <button id="applyCodeButton" class="button button-primary" type="button">Apply</button>
+            </div>
+            <p id="codeMessage" class="message" aria-live="polite"></p>
+          </div>
+
+          <div class="panel reveal" aria-label="Checkout summary">
+            <h3>Order Summary</h3>
+            <div class="price-line"><span>Selected Package</span><strong id="selectedPackage">Rank Boost Bundle</strong></div>
+            <div class="price-line"><span>Base Price</span><strong id="basePrice">$29.00</strong></div>
+            <div class="price-line"><span>Discount</span><strong id="discountAmount">$0.00</strong></div>
+            <div class="price-line"><span>Total</span><strong id="finalPrice">$29.00</strong></div>
+            <div class="tool-row" style="margin-top: 16px;">
+              <button id="stripeButton" class="button button-primary" type="button">Stripe Checkout</button>
+              <a class="button button-secondary" href="https://discord.gg/lootifyy" target="_blank" rel="noopener noreferrer">Open Ticket</a>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section id="loyalty" aria-labelledby="loyalty-title">
       <div class="container">
-        <div class="cta-box reveal">
-          <h2>Need help or ready to get started?</h2>
-          <p>Join our Discord and open a ticket. Weâ€™ll help you instantly.</p>
-          <a class="button button-primary" href="https://discord.gg/YOURINVITE" target="_blank" rel="noopener noreferrer" aria-label="Join the Lootify Discord server">Join Discord</a>
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">XP and rewards</div>
+            <h2 id="loyalty-title" class="section-title">Loyalty <span>system</span></h2>
+          </div>
+          <p class="section-copy">Earn XP by saving packages, checking in, voting, and referral actions. Buttons include cooldowns to prevent spam clicking.</p>
+        </div>
+
+        <div class="checkout-panel">
+          <div class="panel reveal">
+            <div class="xp-line">
+              <h3>Lootify XP</h3>
+              <strong id="xpText">0 / 500 XP</strong>
+            </div>
+            <div class="progress-wrap" aria-label="XP progress">
+              <div id="xpBar" class="progress-bar"></div>
+            </div>
+            <div class="badge-list" id="badgeList"></div>
+            <div class="tool-row" style="margin-top: 16px;">
+              <button id="dailyXpButton" class="button button-primary" type="button">Daily XP</button>
+              <button id="referralButton" class="button button-secondary" type="button">Referral Points</button>
+            </div>
+          </div>
+
+          <div class="panel reveal">
+            <h3>Leaderboard</h3>
+            <div id="leaderboard"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" aria-labelledby="dashboard-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Creator tools</div>
+            <h2 id="dashboard-title" class="section-title">Streamer <span>dashboard</span></h2>
+          </div>
+          <p class="section-copy">A simple creator-facing UI for affiliate codes, order momentum, and community activity.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="mini-stat reveal"><strong>38</strong><span>Affiliate orders</span></div>
+          <div class="mini-stat reveal"><strong>$420</strong><span>Tracked revenue</span></div>
+          <div class="mini-stat reveal"><strong>LOOTLIVE</strong><span>Sample creator code</span></div>
+          <div class="mini-stat reveal"><strong>91%</strong><span>Ticket satisfaction</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="community-title">
+      <div class="container">
+        <div class="checkout-panel">
+          <div class="panel reveal">
+            <div class="eyebrow">Community poll</div>
+            <h2 id="community-title" class="section-title">Vote for the next <span>drop</span></h2>
+            <div id="pollOptions"></div>
+            <p id="pollMessage" class="message" aria-live="polite"></p>
+          </div>
+
+          <form id="requestForm" class="panel reveal">
+            <div class="eyebrow">Custom requests</div>
+            <h2 class="section-title">Start a custom <span>order</span></h2>
+            <div class="form-grid">
+              <input class="input" name="name" placeholder="Name" aria-label="Your name" required />
+              <input class="input" name="discord" placeholder="Discord username" aria-label="Discord username" required />
+              <select class="select" name="service" aria-label="Requested service">
+                <option>Rank Boost</option>
+                <option>Coins Pack</option>
+                <option>Account Setup</option>
+                <option>Custom Grind</option>
+              </select>
+              <input class="input" name="budget" placeholder="Budget" aria-label="Budget" />
+              <textarea class="textarea full" name="details" placeholder="Order details" aria-label="Order details" required></textarea>
+              <button class="button button-primary full" type="submit">Submit Request</button>
+            </div>
+            <p id="requestMessage" class="message" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="reviews-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Reviews</div>
+            <h2 id="reviews-title" class="section-title">Trusted by <span>players</span></h2>
+          </div>
+          <p class="section-copy">Ratings UI and testimonials help make service quality visible before checkout.</p>
+        </div>
+        <div class="reviews-grid">
+          <article class="card reveal">
+            <div class="rating">★★★★★ <span>5.0</span></div>
+            <p class="quote">Fast delivery and the Discord updates were easy to follow.</p>
+            <strong>Nova</strong>
+          </article>
+          <article class="card reveal">
+            <div class="rating">★★★★★ <span>4.9</span></div>
+            <p class="quote">Saved a few packages and came back later. Everything stayed in my wishlist.</p>
+            <strong>Axel</strong>
+          </article>
+          <article class="card reveal">
+            <div class="rating">★★★★★ <span>4.8</span></div>
+            <p class="quote">Loot codes worked instantly and the checkout summary was clear.</p>
+            <strong>Kai</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="trust" aria-labelledby="trust-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Trust</div>
+            <h2 id="trust-title" class="section-title">Built for clean <span>orders</span></h2>
+          </div>
+          <p class="section-copy">Clear pricing, saved state, Discord handoff, and accessible UI patterns across desktop and mobile.</p>
+        </div>
+        <div class="trust-grid">
+          <div class="card reveal"><h3>Verified Flow</h3><p>Each package has a visible price, rating, badge, and order action.</p></div>
+          <div class="card reveal"><h3>Local Saves</h3><p>Wishlist, user profile, XP, and poll data stay in localStorage.</p></div>
+          <div class="card reveal"><h3>Spam Control</h3><p>Cooldowns prevent repeated reward clicks and keep interactions stable.</p></div>
+          <div class="card reveal"><h3>GitHub Ready</h3><p>No build tools, no folders, and no external CSS or JavaScript files.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta reveal">
+          <div>
+            <div class="eyebrow">Ready to order</div>
+            <h2 class="section-title">Join Lootify on <span>Discord</span></h2>
+            <p class="section-copy">Start with a package, apply a Loot Code, then open a ticket for fulfillment.</p>
+          </div>
+          <a class="button button-primary" href="https://discord.gg/lootifyy" target="_blank" rel="noopener noreferrer">Join discord.gg/lootifyy</a>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">Lootify Â© 2026 â€¢ Gaming services made simple.</div>
+    <div class="container footer-row">
+      <span>Lootify © 2026. Gaming services made simple.</span>
+      <span>Discord: discord.gg/lootifyy</span>
+    </div>
   </footer>
 
-  <div class="chatbot" id="chatbot">
-    <div class="chatbot-panel" id="chatbotPanel" aria-hidden="true">
-      <div class="chatbot-header">
-        <div class="chatbot-title">
-          <span class="chatbot-title-mark" aria-hidden="true"></span>
-          <div>
-            <h3>Support Bot</h3>
-            <p>Discord server setup help</p>
-          </div>
+  <div class="chatbot" aria-live="polite">
+    <div id="chatWindow" class="chat-window" aria-label="Lootify chatbot">
+      <div class="chat-head">
+        <div>
+          <strong>Lootify Bot</strong>
+          <span>Online support assistant</span>
         </div>
-        <button class="chatbot-close" id="chatbotClose" type="button" aria-label="Close support bot">X</button>
+        <button id="closeChat" class="icon-button" type="button" aria-label="Close chatbot">x</button>
       </div>
-
-      <div class="chatbot-body">
-        <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-label="Support bot messages"></div>
-        <div class="chatbot-options" id="chatbotOptions" aria-label="Support bot options"></div>
-        <details class="chatbot-secondary">
-          <summary>FAQ and guide</summary>
-          <div class="chatbot-secondary-grid">
-            <button class="chatbot-secondary-button" type="button" data-chatbot-prompt="marketplace guide faq wishlist reviews" aria-label="Open marketplace guide">Marketplace Guide</button>
-            <button class="chatbot-secondary-button" type="button" data-chatbot-prompt="track order progress status" aria-label="Track order progress">Track Order</button>
-          </div>
-        </details>
-        <div class="chatbot-actions" id="chatbotActions" aria-label="Support bot actions"></div>
-        <form class="chatbot-input-wrap" id="chatbotInputForm" autocomplete="off">
-          <input id="chatbotInput" type="text" placeholder="Ask anythingâ€¦" aria-label="Ask Lootify Bot anything" />
-          <button class="chatbot-send" type="submit">Send</button>
-        </form>
-      </div>
+      <div id="chatLog" class="chat-log"></div>
+      <div id="chatOptions" class="chat-options"></div>
+      <form id="chatForm" class="chat-form">
+        <input id="chatInput" class="input" type="text" placeholder="Ask anything..." aria-label="Ask Lootify Bot" />
+        <button class="button button-primary" type="submit">Send</button>
+      </form>
     </div>
-
-    <button class="chatbot-toggle" id="chatbotToggle" type="button" aria-expanded="false" aria-controls="chatbotPanel" aria-label="Open support bot">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M6 18L2.5 21V5.5C2.5 4.4 3.4 3.5 4.5 3.5H19.5C20.6 3.5 21.5 4.4 21.5 5.5V16.5C21.5 17.6 20.6 18.5 19.5 18.5H6V18Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-        <path d="M7 9H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        <path d="M7 13H14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
-    </button>
+    <button id="chatToggle" class="chat-toggle" type="button" aria-label="Open Lootify chatbot">?</button>
   </div>
-  <script src="js/loyalty.js" defer></script>
-  <script src="js/chatbot.js" defer></script>
-  <script src="js/maintenance.js" defer></script>
-  <script src="js/discord.js" defer></script>
-  <script src="js/marketplace.js" defer></script>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const DISCORD_CLIENT_ID = "1495254927319105576";
+    const DISCORD_REDIRECT_URI = "https://lmfaoaimmm.github.io/Lootify/";
+    const DISCORD_INVITE = "https://discord.gg/lootifyy";
+    const STORAGE_KEYS = {
+      user: "lootifyUser",
+      wishlist: "lootifyWishlist",
+      xp: "lootifyXp",
+      cooldowns: "lootifyCooldowns",
+      poll: "lootifyPollVote"
+    };
+
+    const services = [
+      {
+        id: "rank-boost",
+        name: "Rank Boost Bundle",
+        category: "Boosting",
+        price: 29,
+        icon: "R",
+        rating: 4.9,
+        reviews: 214,
+        badge: "HOT",
+        description: "Priority rank support with Discord progress updates and clean handoff."
+      },
+      {
+        id: "coins-pack",
+        name: "Starter Coins Pack",
+        category: "Currency",
+        price: 12,
+        icon: "C",
+        rating: 4.8,
+        reviews: 168,
+        badge: "Featured",
+        description: "A quick starter package for players who need a fast inventory lift."
+      },
+      {
+        id: "custom-grind",
+        name: "Custom Grind Session",
+        category: "Grinding",
+        price: 35,
+        icon: "G",
+        rating: 4.9,
+        reviews: 97,
+        badge: "HOT",
+        description: "Custom objective farming with order notes and Discord ticket tracking."
+      },
+      {
+        id: "account-setup",
+        name: "Account Setup Help",
+        category: "Setup",
+        price: 18,
+        icon: "A",
+        rating: 4.7,
+        reviews: 82,
+        badge: "Featured",
+        description: "Configuration help, beginner setup, and guided launch support."
+      },
+      {
+        id: "weekly-bundle",
+        name: "Weekly Drop Bundle",
+        category: "Bundles",
+        price: 49,
+        icon: "W",
+        rating: 5.0,
+        reviews: 56,
+        badge: "HOT",
+        description: "Best-value rotating bundle with multiple services in one order."
+      },
+      {
+        id: "pc-tweaking",
+        name: "Tweaking / PC Optimization",
+        category: "Optimization",
+        price: 0,
+        icon: "P",
+        rating: 0,
+        reviews: 0,
+        badge: "Coming Soon",
+        comingSoon: true,
+        description: "FPS, latency, and Windows tuning service. Launching soon."
+      }
+    ];
+
+    const lootCodes = {
+      LOOTIFY10: 0.10,
+      LOOTIFYDROP: 0.15
+    };
+
+    const chatOptions = [
+      "View Packages",
+      "Loot Codes",
+      "Live Support",
+      "Start Order",
+      "Marketplace Guide",
+      "Track Order"
+    ];
+
+    const state = {
+      selectedService: services[0],
+      discount: 0,
+      lastClick: new Map()
+    };
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function readJson(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) ?? fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function writeJson(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function showToast(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function preventSpam(key, cooldownMs = 1200) {
+      const now = Date.now();
+      const last = state.lastClick.get(key) || 0;
+      if (now - last < cooldownMs) {
+        showToast("Slow down for a second.");
+        return true;
+      }
+      state.lastClick.set(key, now);
+      return false;
+    }
+
+    function getWishlist() {
+      return readJson(STORAGE_KEYS.wishlist, []);
+    }
+
+    function setWishlist(items) {
+      writeJson(STORAGE_KEYS.wishlist, items);
+    }
+
+    function addXp(amount) {
+      const current = Number(localStorage.getItem(STORAGE_KEYS.xp) || 0);
+      const next = Math.min(current + amount, 500);
+      localStorage.setItem(STORAGE_KEYS.xp, String(next));
+      renderXp();
+      return next;
+    }
+
+    function renderServices() {
+      const grid = $("#serviceGrid");
+      const query = $("#searchInput").value.trim().toLowerCase();
+      const category = $("#categoryFilter").value;
+      const wishlist = getWishlist();
+      const visible = services.filter((service) => {
+        const matchesQuery = [service.name, service.category, service.description].join(" ").toLowerCase().includes(query);
+        const matchesCategory = category === "All" || service.category === category;
+        return matchesQuery && matchesCategory;
+      });
+
+      grid.innerHTML = visible.map((service) => {
+        const saved = wishlist.includes(service.id);
+        const rating = service.comingSoon ? "Coming soon" : "★".repeat(5);
+        const price = service.comingSoon ? "Soon" : `$${service.price}`;
+        const tagClass = service.badge === "HOT" ? "tag tag-hot" : service.comingSoon ? "tag tag-soon" : "tag";
+        const primaryAction = service.comingSoon
+          ? `<button class="button button-secondary notify-button" type="button" data-id="${service.id}">Notify Me</button>`
+          : `<button class="button button-primary order-button" type="button" data-id="${service.id}">Start Order</button>`;
+
+        return `
+          <article class="card reveal visible">
+            <div class="card-top">
+              <div class="service-icon" aria-hidden="true">${service.icon}</div>
+              <span class="${tagClass}">${service.badge}</span>
+            </div>
+            <h3>${service.name}</h3>
+            <p>${service.description}</p>
+            <div class="rating" aria-label="${service.name} rating">
+              ${rating} <span>${service.comingSoon ? "Launch list open" : `${service.rating} from ${service.reviews} reviews`}</span>
+            </div>
+            <div class="price-line"><span>${service.category}</span><strong>${price}</strong></div>
+            <div class="card-actions">
+              ${primaryAction}
+              <button class="icon-button save-button ${saved ? "saved" : ""}" type="button" data-id="${service.id}" aria-label="${saved ? "Remove from wishlist" : "Save to wishlist"}">
+                ${saved ? "✓" : "♡"}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      if (!visible.length) {
+        grid.innerHTML = `<div class="panel">No services matched your search.</div>`;
+      }
+    }
+
+    function setupFilters() {
+      const categories = ["All", ...new Set(services.map((service) => service.category))];
+      $("#categoryFilter").innerHTML = categories.map((category) => `<option value="${category}">${category}</option>`).join("");
+      $("#searchInput").addEventListener("input", renderServices);
+      $("#categoryFilter").addEventListener("change", renderServices);
+    }
+
+    function selectService(serviceId) {
+      const service = services.find((item) => item.id === serviceId);
+      if (!service || service.comingSoon) return;
+      state.selectedService = service;
+      state.discount = 0;
+      $("#lootCodeInput").value = "";
+      $("#codeMessage").textContent = "";
+      updateCheckout();
+      addXp(15);
+      document.querySelector("#loot-codes").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function toggleWishlist(serviceId) {
+      if (preventSpam(`save-${serviceId}`, 700)) return;
+      const wishlist = getWishlist();
+      const exists = wishlist.includes(serviceId);
+      const next = exists ? wishlist.filter((id) => id !== serviceId) : [...wishlist, serviceId];
+      setWishlist(next);
+      if (!exists) addXp(10);
+      renderServices();
+      showToast(exists ? "Removed from wishlist." : "Saved to wishlist.");
+    }
+
+    function updateCheckout() {
+      const base = state.selectedService.price;
+      const discountAmount = base * state.discount;
+      const total = Math.max(base - discountAmount, 0);
+      $("#selectedPackage").textContent = state.selectedService.name;
+      $("#basePrice").textContent = `$${base.toFixed(2)}`;
+      $("#discountAmount").textContent = `-$${discountAmount.toFixed(2)}`;
+      $("#finalPrice").textContent = `$${total.toFixed(2)}`;
+    }
+
+    function applyLootCode() {
+      if (preventSpam("loot-code", 900)) return;
+      const input = $("#lootCodeInput");
+      const message = $("#codeMessage");
+      const code = input.value.trim().toUpperCase();
+      message.classList.remove("error");
+
+      if (!code) {
+        message.textContent = "Enter a Loot Code first.";
+        message.classList.add("error");
+        return;
+      }
+
+      if (!lootCodes[code]) {
+        state.discount = 0;
+        message.textContent = "That Loot Code is not valid.";
+        message.classList.add("error");
+        updateCheckout();
+        return;
+      }
+
+      state.discount = lootCodes[code];
+      message.textContent = `${code} applied for ${Math.round(state.discount * 100)}% off.`;
+      updateCheckout();
+      addXp(20);
+    }
+
+    function setupMarketplaceEvents() {
+      $("#serviceGrid").addEventListener("click", (event) => {
+        const saveButton = event.target.closest(".save-button");
+        const orderButton = event.target.closest(".order-button");
+        const notifyButton = event.target.closest(".notify-button");
+
+        if (saveButton) toggleWishlist(saveButton.dataset.id);
+        if (orderButton) selectService(orderButton.dataset.id);
+        if (notifyButton) {
+          if (preventSpam("notify", 1800)) return;
+          addXp(8);
+          showToast("You are on the Tweaking notify list.");
+        }
+      });
+
+      $("#applyCodeButton").addEventListener("click", applyLootCode);
+      $("#stripeButton").addEventListener("click", () => {
+        if (preventSpam("stripe", 1200)) return;
+        addXp(25);
+        showToast("Stripe placeholder: connect this button to your Checkout link.");
+      });
+    }
+
+    function getDiscordLoginUrl() {
+      const params = new URLSearchParams({
+        client_id: DISCORD_CLIENT_ID,
+        response_type: "token",
+        redirect_uri: DISCORD_REDIRECT_URI,
+        scope: "identify"
+      });
+      return `https://discord.com/oauth2/authorize?${params.toString()}`;
+    }
+
+    function renderDiscordCard() {
+      const card = $("#discord-card");
+      const user = readJson(STORAGE_KEYS.user, null);
+
+      if (!user) {
+        card.innerHTML = `
+          <div class="avatar-fallback" aria-hidden="true">D</div>
+          <div>
+            <strong>Login with Discord</strong>
+            <p>Save your Discord profile locally for a smoother order flow.</p>
+          </div>
+          <a class="button button-primary" href="${getDiscordLoginUrl()}">Connect</a>
+        `;
+        return;
+      }
+
+      const avatarUrl = user.avatar
+        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+        : "";
+      card.innerHTML = `
+        ${avatarUrl ? `<img class="avatar" src="${avatarUrl}" alt="${user.username}'s Discord avatar" />` : `<div class="avatar-fallback" aria-hidden="true">${user.username.slice(0, 1).toUpperCase()}</div>`}
+        <div>
+          <strong>${user.global_name || user.username}</strong>
+          <p>@${user.username}</p>
+        </div>
+        <button id="logoutButton" class="button button-danger" type="button">Logout</button>
+      `;
+      $("#logoutButton").addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEYS.user);
+        renderDiscordCard();
+        showToast("Logged out of Discord.");
+      });
+    }
+
+    async function handleDiscordOAuth() {
+      if (!location.hash.includes("access_token")) {
+        renderDiscordCard();
+        return;
+      }
+
+      const params = new URLSearchParams(location.hash.slice(1));
+      const token = params.get("access_token");
+      history.replaceState(null, document.title, location.pathname + location.search);
+
+      if (!token) {
+        renderDiscordCard();
+        return;
+      }
+
+      try {
+        const response = await fetch("https://discord.com/api/users/@me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error("Discord profile request failed.");
+        const user = await response.json();
+        writeJson(STORAGE_KEYS.user, user);
+        addXp(30);
+        showToast("Discord login saved.");
+      } catch {
+        showToast("Discord login could not be completed.");
+      } finally {
+        renderDiscordCard();
+      }
+    }
+
+    function renderXp() {
+      const xp = Number(localStorage.getItem(STORAGE_KEYS.xp) || 0);
+      const percent = Math.min((xp / 500) * 100, 100);
+      $("#xpText").textContent = `${xp} / 500 XP`;
+      $("#xpBar").style.width = `${percent}%`;
+
+      const badges = [
+        { name: "Starter", xp: 25 },
+        { name: "Saver", xp: 75 },
+        { name: "Code Hunter", xp: 125 },
+        { name: "VIP Grinder", xp: 250 },
+        { name: "Loot Legend", xp: 500 }
+      ];
+      $("#badgeList").innerHTML = badges.map((badge) => (
+        `<span class="achievement ${xp >= badge.xp ? "unlocked" : ""}">${badge.name}</span>`
+      )).join("");
+    }
+
+    function cooldownReady(name, ms) {
+      const cooldowns = readJson(STORAGE_KEYS.cooldowns, {});
+      const now = Date.now();
+      if (cooldowns[name] && now - cooldowns[name] < ms) {
+        const seconds = Math.ceil((ms - (now - cooldowns[name])) / 1000);
+        showToast(`Cooldown active. Try again in ${seconds}s.`);
+        return false;
+      }
+      cooldowns[name] = now;
+      writeJson(STORAGE_KEYS.cooldowns, cooldowns);
+      return true;
+    }
+
+    function setupLoyalty() {
+      renderXp();
+      $("#dailyXpButton").addEventListener("click", () => {
+        if (!cooldownReady("daily", 60000)) return;
+        addXp(35);
+        showToast("Daily XP claimed.");
+      });
+      $("#referralButton").addEventListener("click", () => {
+        if (!cooldownReady("referral", 90000)) return;
+        addXp(45);
+        showToast("Referral points added.");
+      });
+      $("#leaderboard").innerHTML = [
+        ["Nova", "482 XP"],
+        ["Axel", "390 XP"],
+        ["You", `${Number(localStorage.getItem(STORAGE_KEYS.xp) || 0)} XP`],
+        ["Kai", "244 XP"]
+      ].map(([name, score], index) => `<div class="leader-row"><strong>#${index + 1} ${name}</strong><span>${score}</span></div>`).join("");
+    }
+
+    function setupPoll() {
+      const options = ["More bundles", "Cheaper starter packs", "PC optimization", "Streamer drops"];
+      const vote = localStorage.getItem(STORAGE_KEYS.poll);
+      $("#pollOptions").innerHTML = options.map((option) => `
+        <div class="poll-option">
+          <span>${option}</span>
+          <button type="button" data-vote="${option}" ${vote ? "disabled" : ""}>${vote === option ? "Voted" : "Vote"}</button>
+        </div>
+      `).join("");
+      if (vote) $("#pollMessage").textContent = `Your vote: ${vote}`;
+
+      $("#pollOptions").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-vote]");
+        if (!button || localStorage.getItem(STORAGE_KEYS.poll)) return;
+        localStorage.setItem(STORAGE_KEYS.poll, button.dataset.vote);
+        addXp(12);
+        setupPoll();
+        showToast("Vote saved.");
+      }, { once: true });
+    }
+
+    function setupRequestForm() {
+      $("#requestForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (preventSpam("request", 2000)) return;
+        $("#requestMessage").textContent = "Request saved locally. Open Discord to submit the ticket.";
+        addXp(20);
+        showToast("Custom request prepared.");
+      });
+    }
+
+    function chatReply(input) {
+      const text = input.toLowerCase();
+      if (text.includes("package") || text.includes("service")) {
+        return "Top packages are Rank Boost, Starter Coins, Custom Grind, Weekly Drop Bundle, and Account Setup.";
+      }
+      if (text.includes("code") || text.includes("discount")) {
+        return "Use LOOTIFY10 for 10% off or LOOTIFYDROP for 15% off in the Loot Codes section.";
+      }
+      if (text.includes("support") || text.includes("discord") || text.includes("ticket")) {
+        return "Live support runs through Discord. Join discord.gg/lootifyy and open a ticket.";
+      }
+      if (text.includes("order") || text.includes("start")) {
+        return "Pick a marketplace card, press Start Order, apply a Loot Code, then use Stripe Checkout or open a Discord ticket.";
+      }
+      if (text.includes("track")) {
+        return "Order tracking is handled in your Discord ticket. Keep your ticket open for seller updates.";
+      }
+      if (text.includes("guide") || text.includes("how")) {
+        return "Marketplace guide: search, filter, save favorites, choose a package, apply a code, then start checkout.";
+      }
+      if (text.includes("tweak") || text.includes("optimization") || text.includes("pc")) {
+        return "Tweaking / PC Optimization is marked Coming Soon. Press Notify Me on the marketplace card.";
+      }
+      return "I can help with packages, Loot Codes, live support, starting orders, marketplace guidance, tracking, and PC optimization notices.";
+    }
+
+    function addChatBubble(message, fromUser = false) {
+      const log = $("#chatLog");
+      const bubble = document.createElement("div");
+      bubble.className = `chat-bubble ${fromUser ? "user" : ""}`;
+      bubble.textContent = message;
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function showTypingThenReply(message) {
+      const log = $("#chatLog");
+      const typing = document.createElement("div");
+      typing.className = "chat-bubble";
+      typing.innerHTML = `<span class="typing" aria-label="Lootify Bot is typing"><i></i><i></i><i></i></span>`;
+      log.appendChild(typing);
+      log.scrollTop = log.scrollHeight;
+
+      window.setTimeout(() => {
+        typing.remove();
+        addChatBubble(chatReply(message));
+      }, 650);
+    }
+
+    function setupChatbot() {
+      const windowEl = $("#chatWindow");
+      $("#chatToggle").addEventListener("click", () => windowEl.classList.toggle("open"));
+      $("#closeChat").addEventListener("click", () => windowEl.classList.remove("open"));
+      $("#chatOptions").innerHTML = chatOptions.map((option) => `<button class="chat-option" type="button">${option}</button>`).join("");
+      addChatBubble("Welcome to Lootify. Choose an option or ask a question.");
+
+      $("#chatOptions").addEventListener("click", (event) => {
+        const option = event.target.closest(".chat-option");
+        if (!option) return;
+        addChatBubble(option.textContent, true);
+        showTypingThenReply(option.textContent);
+      });
+
+      $("#chatForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const input = $("#chatInput");
+        const message = input.value.trim();
+        if (!message) return;
+        addChatBubble(message, true);
+        input.value = "";
+        showTypingThenReply(message);
+      });
+    }
+
+    function setupRevealEffects() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      }, { threshold: 0.12 });
+
+      $$(".reveal").forEach((item) => observer.observe(item));
+    }
+
+    function setupInitialState() {
+      setupFilters();
+      renderServices();
+      updateCheckout();
+      setupMarketplaceEvents();
+      handleDiscordOAuth();
+      setupLoyalty();
+      setupPoll();
+      setupRequestForm();
+      setupChatbot();
+      setupRevealEffects();
+    }
+
+    document.addEventListener("DOMContentLoaded", setupInitialState);
+  </script>
 </body>
 </html>
-
