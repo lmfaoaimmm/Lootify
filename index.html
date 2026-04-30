@@ -893,6 +893,143 @@
       transform: translate(-50%, 0);
     }
 
+    #launch-screen {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(166, 255, 0, 0.15), transparent 25rem),
+        #0b0f0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000000;
+      padding: 24px;
+    }
+
+    .launch-content {
+      width: min(720px, 100%);
+      text-align: center;
+      color: white;
+    }
+
+    .launch-content .logo {
+      display: block;
+      margin: 0 0 12px;
+      max-width: none;
+      color: var(--green);
+      font-size: clamp(3.2rem, 10vw, 6.8rem);
+      line-height: 0.95;
+      text-shadow: 0 0 34px rgba(166, 255, 0, 0.28);
+    }
+
+    .launch-content .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 20px;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .launch-content .status::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(166, 255, 0, 0.85);
+    }
+
+    .headline {
+      margin: 0 0 26px;
+      color: var(--text);
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1;
+    }
+
+    .desc {
+      margin: -12px 0 26px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 auto;
+    }
+
+    .countdown div {
+      min-height: 112px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(166, 255, 0, 0.22);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: var(--shadow);
+      padding: 16px 10px;
+    }
+
+    .countdown span {
+      display: block;
+      color: var(--green);
+      font-size: clamp(2rem, 7vw, 3.8rem);
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .countdown small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .live-text {
+      color: #A6FF00;
+      font-size: 22px;
+      margin-top: 20px;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    .actions a {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      border: 1px solid #A6FF00;
+      color: #A6FF00;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+
+    .actions a:hover {
+      background: #A6FF00;
+      color: black;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 8px rgba(166, 255, 0, 0.35);
+      }
+
+      to {
+        text-shadow: 0 0 24px rgba(166, 255, 0, 0.9);
+      }
+    }
+
     @media (max-width: 940px) {
       .nav-links {
         display: none;
@@ -1000,6 +1137,10 @@
         right: 12px;
         bottom: 12px;
         width: calc(100vw - 24px);
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -1115,6 +1256,38 @@
   </style>
 </head>
 <body>
+  <div id="launch-screen">
+    <div class="launch-content">
+      <h1 class="logo">Lootify</h1>
+
+      <p class="status">Launch Event</p>
+
+      <h2 class="headline" id="launch-headline">
+        Launching at 8PM EST
+      </h2>
+
+      <p class="desc">
+        Countdown to launch. Be ready.
+      </p>
+
+      <div class="countdown" id="launch-countdown">
+        <div><span id="l-days">0</span><small>Days</small></div>
+        <div><span id="l-hours">0</span><small>Hours</small></div>
+        <div><span id="l-minutes">0</span><small>Minutes</small></div>
+        <div><span id="l-seconds">0</span><small>Seconds</small></div>
+      </div>
+
+      <div id="launch-live" style="display:none;">
+        <p class="live-text">Lootify is now LIVE</p>
+
+        <div class="actions">
+          <a href="#services">View Services</a>
+          <a href="https://discord.gg/lootifyy" target="_blank" rel="noreferrer">Join Discord</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="maintenance-screen">
     <div class="maintenance-content">
       <h1>&#9888;&#65039;</h1>
@@ -1716,6 +1889,8 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
+    const launchMode = true;
+
     const DISCORD_CLIENT_ID = "1495254927319105576";
     const DISCORD_REDIRECT_URI = "https://lmfaoaimmm.github.io/Lootify/";
     const DISCORD_INVITE = "https://discord.gg/lootifyy";
@@ -2366,6 +2541,57 @@
     }
 
     //////////////////////////
+    // LAUNCH CONTROL
+    //////////////////////////
+
+    // SET FIXED LAUNCH TIME (8PM EASTERN)
+    const launchDate = new Date("2026-04-30T20:00:00-04:00");
+
+    function updateLaunchCountdown() {
+      const now = new Date();
+      const diff = launchDate - now;
+      const countdown = document.getElementById("launch-countdown");
+      const live = document.getElementById("launch-live");
+      const headline = document.getElementById("launch-headline");
+
+      if (!countdown || !live || !headline) return;
+
+      if (diff <= 0) {
+        countdown.style.display = "none";
+        live.style.display = "block";
+        headline.textContent = "We Are Live";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("l-days").textContent = days;
+      document.getElementById("l-hours").textContent = hours;
+      document.getElementById("l-minutes").textContent = minutes;
+      document.getElementById("l-seconds").textContent = seconds;
+    }
+
+    function initLaunchSystem() {
+      const screen = document.getElementById("launch-screen");
+      if (!screen) return;
+
+      if (!launchMode) {
+        screen.style.display = "none";
+        return;
+      }
+
+      screen.querySelector('a[href="#services"]')?.addEventListener("click", () => {
+        screen.style.display = "none";
+      });
+
+      window.setInterval(updateLaunchCountdown, 1000);
+      updateLaunchCountdown();
+    }
+
+    //////////////////////////
     // MAINTENANCE CONTROL
     //////////////////////////
 
@@ -2446,6 +2672,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      initLaunchSystem();
       initMaintenanceSystem();
       init();
     });
