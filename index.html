@@ -369,12 +369,46 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
+    .marketplace-stack {
+      display: grid;
+      gap: 34px;
+    }
+
+    .service-category {
+      display: grid;
+      gap: 14px;
+    }
+
+    .category-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 2px;
+    }
+
+    .category-title {
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.15;
+    }
+
+    .category-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
     .card {
       display: flex;
       min-height: 350px;
       flex-direction: column;
       padding: 20px;
       transition: transform 160ms ease, border-color 160ms ease;
+    }
+
+    .service-card {
+      min-height: 250px;
     }
 
     .card:hover {
@@ -409,6 +443,20 @@
 
     .card p {
       color: var(--muted);
+    }
+
+    .include-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      list-style: none;
+    }
+
+    .include-list li {
+      padding-left: 14px;
+      border-left: 2px solid rgba(166, 255, 0, 0.34);
     }
 
     .rating {
@@ -655,17 +703,76 @@
       color: var(--muted);
     }
 
+    .legal-section {
+      padding: 60px 20px;
+      background: #0b0f0a;
+      color: white;
+      border-top: 1px solid #1a1f17;
+    }
+
+    .legal-container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .legal-section h2 {
+      color: #A6FF00;
+      margin-bottom: 10px;
+    }
+
+    .legal-card {
+      background: #111;
+      border: 1px solid #1f2a1a;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      transition: 0.2s;
+    }
+
+    .legal-card:hover {
+      border-color: #A6FF00;
+    }
+
+    .legal-card p {
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    .legal-card ul {
+      padding-left: 20px;
+    }
+
+    .legal-card li {
+      margin-bottom: 6px;
+      opacity: 0.85;
+    }
+
     footer {
-      border-top: 1px solid var(--line-soft);
-      padding: 26px 0;
-      color: var(--muted);
+      padding: 20px;
+      text-align: center;
+      background: #0b0f0a;
+      border-top: 1px solid #1a1f17;
     }
 
     .footer-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .footer-row p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: #A6FF00;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
 
     .chatbot {
@@ -803,6 +910,11 @@
       .trust-grid,
       .faq-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .category-head {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
 
@@ -1028,7 +1140,7 @@
   </div>
 
   <div class="maintenance-banner">
-    Lootify is in maintenance mode. Stripe links are placeholders until checkout goes live.
+    Lootify is in maintenance mode. Stripe checkout links are live, and NEW40 bundle discount links can be added when ready.
   </div>
 
   <header class="nav-wrap">
@@ -1090,48 +1202,232 @@
           <p class="section-copy">Choose a service, apply a Loot Code if you have one, then continue to Stripe from the checkout summary.</p>
         </div>
 
-        <div class="service-grid" id="serviceGrid">
-          <article class="card">
-            <div class="card-top">
-              <div class="service-icon" aria-hidden="true">F</div>
-              <span class="tag">Popular</span>
+        <div class="marketplace-stack" id="serviceGrid">
+          <div class="service-category">
+            <div class="category-head">
+              <h3 class="category-title">Fortnite Services</h3>
             </div>
-            <h3>Fortnite Coaching</h3>
-            <p>Improve faster with direct coaching and simple Discord scheduling.</p>
-            <div class="rating" aria-label="Fortnite Coaching rating">&#9733; 4.9</div>
-            <div class="price">$10</div>
-            <div class="card-actions">
-              <button class="button button-primary buy-button" type="button" data-service="coaching">Buy with Stripe</button>
-            </div>
-          </article>
+            <div class="service-grid">
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Popular</span>
+                </div>
+                <h3>Ranked Carries</h3>
+                <p>Play alongside a high-level player to climb ranked faster without the grind.</p>
+                <div class="price">$15/hour</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="rankedCarry" onclick="buy('rankedCarry')">Buy with Stripe</button>
+                </div>
+              </article>
 
-          <article class="card">
-            <div class="card-top">
-              <div class="service-icon" aria-hidden="true">R</div>
-              <span class="tag">Fast Delivery</span>
-            </div>
-            <h3>Rank Carry</h3>
-            <p>Get help completing ranked goals without the endless grind.</p>
-            <div class="rating" aria-label="Rank Carry rating">&#9733; 4.8</div>
-            <div class="price">$25</div>
-            <div class="card-actions">
-              <button class="button button-primary buy-button" type="button" data-service="carry">Buy with Stripe</button>
-            </div>
-          </article>
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag tag-yellow">Advanced</span>
+                </div>
+                <h3>Tournament Coaching</h3>
+                <p>Advanced coaching focused on tournaments, rotations, and decision-making.</p>
+                <div class="price">$35/hour</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="tournamentCoaching" onclick="buy('tournamentCoaching')">Buy with Stripe</button>
+                </div>
+              </article>
 
-          <article class="card">
-            <div class="card-top">
-              <div class="service-icon" aria-hidden="true">P</div>
-              <span class="tag tag-yellow">Coming Soon</span>
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Beginner Friendly</span>
+                </div>
+                <h3>Practice Coaching</h3>
+                <p>Improve mechanics, aim, and consistency with guided practice sessions.</p>
+                <div class="price">$20/hour</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="practiceCoaching" onclick="buy('practiceCoaching')">Buy with Stripe</button>
+                </div>
+              </article>
             </div>
-            <h3>PC Optimization</h3>
-            <p>FPS and Windows optimization service is being tested before release.</p>
-            <div class="rating" aria-label="PC Optimization status">Launch list open</div>
-            <div class="price">Coming Soon</div>
-            <div class="card-actions">
-              <button class="button" type="button" disabled>Coming Soon</button>
+          </div>
+
+          <div class="service-category">
+            <div class="category-head">
+              <h3 class="category-title">PC Optimization</h3>
+              <div class="tag tag-yellow">Profiles and tools coming soon</div>
             </div>
-          </article>
+            <p class="category-note">Every system is different - we optimize based on your specific hardware and setup.</p>
+            <div class="service-grid">
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Custom Setup</span>
+                </div>
+                <h3>Basic Optimization</h3>
+                <p>Clean up your system and improve performance with essential tweaks tailored to your setup.</p>
+                <div class="price">$25</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="basicOptimize" onclick="buy('basicOptimize')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">FPS Focused</span>
+                </div>
+                <h3>Advanced Optimization</h3>
+                <p>Improve FPS, reduce input delay, and optimize your game settings for smoother performance.</p>
+                <div class="price">$40</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="advancedOptimize" onclick="buy('advancedOptimize')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag tag-yellow">Full Tune</span>
+                </div>
+                <h3>Pro Optimization</h3>
+                <p>Full system optimization customized to your hardware for maximum performance and stability.</p>
+                <div class="price">$60</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="proOptimize" onclick="buy('proOptimize')">Buy with Stripe</button>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="service-category">
+            <div class="category-head">
+              <h3 class="category-title">Discord Setup</h3>
+            </div>
+            <div class="service-grid">
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Starter</span>
+                </div>
+                <h3>Basic Setup</h3>
+                <p>Channels, roles, and a clean server structure.</p>
+                <div class="price">$20</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="discordBasic" onclick="buy('discordBasic')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Organized</span>
+                </div>
+                <h3>Advanced Setup</h3>
+                <p>Bot setup, moderation tools, and improved organization.</p>
+                <div class="price">$40</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="discordAdvanced" onclick="buy('discordAdvanced')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag tag-yellow">Premium</span>
+                </div>
+                <h3>Premium Setup</h3>
+                <p>Full server setup, automation, and polished branding.</p>
+                <div class="price">$65</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="discordPremium" onclick="buy('discordPremium')">Buy with Stripe</button>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="service-category">
+            <div class="category-head">
+              <h3 class="category-title">Extra Services</h3>
+            </div>
+            <div class="service-grid">
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Review</span>
+                </div>
+                <h3>VOD Review</h3>
+                <p>Detailed review of your gameplay with actionable feedback.</p>
+                <div class="price">$15</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="vodReview" onclick="buy('vodReview')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Ranked</span>
+                </div>
+                <h3>Duo Queue Boost</h3>
+                <p>Queue together and improve while climbing ranked.</p>
+                <div class="price">$20/hour</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="duoBoost" onclick="buy('duoBoost')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Quick Tune</span>
+                </div>
+                <h3>Settings Optimization</h3>
+                <p>Get optimized sensitivity, binds, and pro-level settings.</p>
+                <div class="price">$10</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="settingsOptimize" onclick="buy('settingsOptimize')">Buy with Stripe</button>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="service-category">
+            <div class="category-head">
+              <h3 class="category-title">Bundle Deals</h3>
+            </div>
+            <div class="service-grid">
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Bundle</span>
+                </div>
+                <h3>Starter Bundle</h3>
+                <ul class="include-list" aria-label="Starter Bundle includes">
+                  <li>Practice Coaching</li>
+                  <li>Basic Optimization</li>
+                </ul>
+                <div class="price">$30</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="starterBundle" onclick="buy('starterBundle')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag">Bundle</span>
+                </div>
+                <h3>Performance Bundle</h3>
+                <ul class="include-list" aria-label="Performance Bundle includes">
+                  <li>Advanced Optimization</li>
+                  <li>Settings Optimization</li>
+                </ul>
+                <div class="price">$50</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="performanceBundle" onclick="buy('performanceBundle')">Buy with Stripe</button>
+                </div>
+              </article>
+
+              <article class="card service-card">
+                <div class="card-top">
+                  <span class="tag tag-yellow">Bundle</span>
+                </div>
+                <h3>Competitive Bundle</h3>
+                <ul class="include-list" aria-label="Competitive Bundle includes">
+                  <li>Tournament Coaching</li>
+                  <li>Pro Optimization</li>
+                </ul>
+                <div class="price">$70</div>
+                <div class="card-actions">
+                  <button class="button button-primary buy-button" type="button" data-service="competitiveBundle" onclick="buy('competitiveBundle')">Buy with Stripe</button>
+                </div>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1141,12 +1437,12 @@
         <div class="checkout-card">
           <span class="eyebrow">Loot Codes</span>
           <h2 class="section-title">Apply a code before Stripe.</h2>
-          <p class="section-copy">Current codes: LOOTIFY10 for 10% off and LOOTIFYDROP for 15% off.</p>
+          <p class="section-copy">Current code: NEW40 for 40% off qualifying bundles priced at $50+.</p>
           <div class="code-row">
-            <input id="lootCodeInput" class="input" type="text" placeholder="Enter Loot Code" autocomplete="off" />
+            <input id="code" class="input" type="text" placeholder="Enter Loot Code" autocomplete="off" />
             <button id="applyCodeButton" class="button button-secondary" type="button">Apply</button>
           </div>
-          <p id="codeMessage" class="message" role="status" aria-live="polite"></p>
+          <p id="code-message" class="message" role="status" aria-live="polite"></p>
 
           <div id="discord-card" class="discord-card" aria-live="polite"></div>
         </div>
@@ -1159,11 +1455,11 @@
           <div class="summary-lines">
             <div class="summary-line">
               <span>Selected service</span>
-              <strong id="selectedService">Fortnite Coaching</strong>
+              <strong id="selectedService">Ranked Carries</strong>
             </div>
             <div class="summary-line">
               <span>Base price</span>
-              <strong id="basePrice">$10.00</strong>
+              <strong id="basePrice">$15.00</strong>
             </div>
             <div class="summary-line">
               <span>Loot Code</span>
@@ -1175,7 +1471,7 @@
             </div>
             <div class="summary-line total">
               <span>Total</span>
-              <strong id="totalPrice">$10.00</strong>
+              <strong id="totalPrice">$15.00</strong>
             </div>
           </div>
           <button id="stripeButton" class="button button-primary" type="button">Continue to Stripe</button>
@@ -1329,8 +1625,8 @@
             <p>Use the Loot Code box before continuing to Stripe. Discounted Stripe links can be added for each code.</p>
           </article>
           <article class="faq-item">
-            <h3>When does PC Optimization launch?</h3>
-            <p>It is still being tested. It will show a live Stripe checkout button when it is ready.</p>
+            <h3>How does PC Optimization work?</h3>
+            <p>Each optimization is based on your hardware, game settings, and current setup. Profiles and tools are planned for a future update.</p>
           </article>
         </div>
       </div>
@@ -1349,14 +1645,51 @@
     </section>
   </main>
 
+  <section class="legal-section">
+    <div class="legal-container">
+      <div id="terms" class="legal-card">
+        <h2>Terms of Service</h2>
+        <p>By purchasing services from Lootify, you agree to the following terms:</p>
+        <ul>
+          <li>All services are delivered digitally via Discord.</li>
+          <li>Customers must provide accurate information for service delivery.</li>
+          <li>Service times may vary based on scheduling.</li>
+          <li>Abuse or misuse may result in refusal of service.</li>
+          <li>Services and pricing may change at any time.</li>
+        </ul>
+      </div>
+
+      <div id="privacy" class="legal-card">
+        <h2>Privacy Policy</h2>
+        <p>Lootify only collects information necessary to provide services.</p>
+        <ul>
+          <li>We do not sell or share your data.</li>
+          <li>Payments are securely handled through Stripe.</li>
+          <li>Discord usernames may be used for service delivery.</li>
+          <li>Local storage may be used for features like XP and preferences.</li>
+        </ul>
+      </div>
+
+      <div id="refunds" class="legal-card">
+        <h2>Refund Policy</h2>
+        <p>Refund requests must be submitted within 7 days of purchase.</p>
+        <ul>
+          <li>All refunds are handled through our support team.</li>
+          <li>Completed services may not be eligible.</li>
+          <li>Partial refunds may be issued depending on the situation.</li>
+        </ul>
+        <p>Contact support through Discord to request a refund.</p>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    <div class="container footer-row">
-      <span>Lootify. Gaming services with Stripe checkout and Discord delivery.</span>
-      <div class="footer-links">
-        <a href="#services">Services</a>
-        <a href="#checkout">Loot Codes</a>
-        <a href="#rewards">Rewards</a>
-        <a href="https://discord.gg/lootifyy" target="_blank" rel="noreferrer">Discord</a>
+    <div class="footer-row">
+      <p>Lootify &copy; 2026</p>
+      <div>
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#refunds">Refunds</a>
       </div>
     </div>
   </footer>
@@ -1394,40 +1727,137 @@
     const REFERRAL_BASE_URL = "https://lmfaoaimmm.github.io/Lootify/";
 
     const stripeLinks = {
-      coaching: {
-        normal: "PASTE_STRIPE_LINK_HERE",
-        LOOTIFY10: "PASTE_DISCOUNT_LINK_HERE",
-        LOOTIFYDROP: "PASTE_DISCOUNT_LINK_HERE"
+      rankedCarry: {
+        normal: "https://buy.stripe.com/9B614n81g5dw3swgtV5os0h"
       },
-      carry: {
-        normal: "PASTE_STRIPE_LINK_HERE",
-        LOOTIFY10: "PASTE_DISCOUNT_LINK_HERE",
-        LOOTIFYDROP: "PASTE_DISCOUNT_LINK_HERE"
+      practiceCoaching: {
+        normal: "https://buy.stripe.com/8x200jgxMeO63sw5Ph5os0f"
+      },
+      tournamentCoaching: {
+        normal: "https://book.stripe.com/00w7sL3L0bBUe7a4Ld5os0g"
+      },
+      duoBoost: {
+        normal: "https://buy.stripe.com/bJe00ja9o9tM6EIcdF5os07"
+      },
+      vodReview: {
+        normal: "https://buy.stripe.com/6oUbJ14P40Xg4wA0uX5os08"
+      },
+      basicOptimize: {
+        normal: "https://buy.stripe.com/14AcN5gxM9tMgfia5x5os0e"
+      },
+      advancedOptimize: {
+        normal: "https://buy.stripe.com/3cI5kD1CS9tM4wAdhJ5os0d"
+      },
+      proOptimize: {
+        normal: "https://buy.stripe.com/6oU00j81g49s5AE91t5os0c"
+      },
+      discordBasic: {
+        normal: "https://buy.stripe.com/8x2bJ14P4gWe2os4Ld5os0b"
+      },
+      discordAdvanced: {
+        normal: "https://buy.stripe.com/cNiaEX0yOeO66EI7Xp5os0a"
+      },
+      discordPremium: {
+        normal: "https://buy.stripe.com/9B68wP0yO0Xg7IM6Tl5os09"
+      },
+      starterBundle: {
+        normal: "https://buy.stripe.com/cNi5kD2GWdK2aUYelN5os03"
+      },
+      performanceBundle: {
+        normal: "https://buy.stripe.com/9B614nchw21kfbegtV5os04",
+        NEW40: "REPLACE_WITH_40_DISCOUNT_LINK"
+      },
+      competitiveBundle: {
+        normal: "https://buy.stripe.com/6oU4gzepE9tM7IM1z15os05",
+        NEW40: "REPLACE_WITH_40_DISCOUNT_LINK"
+      },
+      settingsOptimize: {
+        normal: "https://buy.stripe.com/5kQbJ181g6hAaUY4Ld5os06"
       }
     };
 
     const services = {
-      coaching: {
-        id: "coaching",
-        name: "Fortnite Coaching",
+      rankedCarry: {
+        id: "rankedCarry",
+        name: "Ranked Carries",
+        price: 15
+      },
+      practiceCoaching: {
+        id: "practiceCoaching",
+        name: "Practice Coaching",
+        price: 20
+      },
+      tournamentCoaching: {
+        id: "tournamentCoaching",
+        name: "Tournament Coaching",
+        price: 35
+      },
+      basicOptimize: {
+        id: "basicOptimize",
+        name: "Basic Optimization",
+        price: 25
+      },
+      advancedOptimize: {
+        id: "advancedOptimize",
+        name: "Advanced Optimization",
+        price: 40
+      },
+      proOptimize: {
+        id: "proOptimize",
+        name: "Pro Optimization",
+        price: 60
+      },
+      discordBasic: {
+        id: "discordBasic",
+        name: "Basic Discord Setup",
+        price: 20
+      },
+      discordAdvanced: {
+        id: "discordAdvanced",
+        name: "Advanced Discord Setup",
+        price: 40
+      },
+      discordPremium: {
+        id: "discordPremium",
+        name: "Premium Discord Setup",
+        price: 65
+      },
+      vodReview: {
+        id: "vodReview",
+        name: "VOD Review",
+        price: 15
+      },
+      duoBoost: {
+        id: "duoBoost",
+        name: "Duo Queue Boost",
+        price: 20
+      },
+      settingsOptimize: {
+        id: "settingsOptimize",
+        name: "Settings Optimization",
         price: 10
       },
-      carry: {
-        id: "carry",
-        name: "Rank Carry",
-        price: 25
+      starterBundle: {
+        id: "starterBundle",
+        name: "Starter Bundle",
+        price: 30
+      },
+      performanceBundle: {
+        id: "performanceBundle",
+        name: "Performance Bundle",
+        price: 50
+      },
+      competitiveBundle: {
+        id: "competitiveBundle",
+        name: "Competitive Bundle",
+        price: 70
       }
-    };
-
-    const lootCodes = {
-      LOOTIFY10: 0.10,
-      LOOTIFYDROP: 0.15
     };
 
     const chatOptions = ["View Services", "Loot Codes", "Support", "Track Order"];
 
     const state = {
-      selectedService: services.coaching,
+      selectedService: services.rankedCarry,
       activeCode: "",
       discount: 0,
       referralRewardChecked: false
@@ -1633,8 +2063,64 @@
       showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
     }
 
+    function showMessage(text, type) {
+      let msg = document.getElementById("code-message");
+
+      if (!msg) {
+        msg = document.createElement("div");
+        msg.id = "code-message";
+        msg.className = "message";
+        msg.style.marginTop = "10px";
+        msg.style.fontSize = "14px";
+        document.body.appendChild(msg);
+      }
+
+      msg.textContent = text;
+      msg.classList.toggle("error", type === "error");
+      msg.style.color = type === "success" ? "#A6FF00" : "red";
+    }
+
     function money(value) {
       return `$${value.toFixed(2)}`;
+    }
+
+    function getEnteredCode() {
+      const codeInput = document.getElementById("code");
+      return codeInput ? codeInput.value.trim().toUpperCase() : "";
+    }
+
+    function isBundleDiscountEligible(service, code) {
+      return code === "NEW40" && (service === "performanceBundle" || service === "competitiveBundle");
+    }
+
+    function syncSelectedCode(service = state.selectedService.id) {
+      const code = getEnteredCode();
+
+      if (!code) {
+        state.activeCode = "";
+        state.discount = 0;
+        updateSummary();
+        return { code: "", valid: false };
+      }
+
+      if (code === "NEW40") {
+        if (isBundleDiscountEligible(service, code)) {
+          state.activeCode = code;
+          state.discount = 0.4;
+          updateSummary();
+          return { code, valid: true };
+        }
+
+        state.activeCode = "";
+        state.discount = 0;
+        updateSummary();
+        return { code, valid: false, reason: "bundle-only" };
+      }
+
+      state.activeCode = "";
+      state.discount = 0;
+      updateSummary();
+      return { code, valid: false, reason: "invalid" };
     }
 
     function getTotal() {
@@ -1655,6 +2141,7 @@
       const service = services[serviceId];
       if (!service) return;
       state.selectedService = service;
+      syncSelectedCode(serviceId);
       updateSummary();
       if (scrollToCheckout) {
         $("#checkout").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1662,41 +2149,65 @@
     }
 
     function applyLootCode() {
-      const input = $("#lootCodeInput");
-      const message = $("#codeMessage");
-      const code = input.value.trim().toUpperCase();
-      message.classList.remove("error");
+      const input = document.getElementById("code");
+      const result = syncSelectedCode(state.selectedService.id);
 
-      if (lootCodes[code]) {
-        state.activeCode = code;
-        state.discount = lootCodes[code];
-        message.textContent = "Loot Code applied.";
-      } else {
-        state.activeCode = "";
-        state.discount = 0;
-        message.textContent = "Invalid Loot Code.";
-        message.classList.add("error");
+      if (input) {
+        input.value = result.code;
       }
 
-      input.value = code;
-      updateSummary();
+      if (!result.code) {
+        showMessage("Enter a Loot Code first.", "error");
+        return;
+      }
+
+      if (result.valid) {
+        showMessage("Code applied", "success");
+        return;
+      }
+
+      if (result.reason === "bundle-only") {
+        showMessage("This code only works on bundles $50+", "error");
+        return;
+      }
+
+      showMessage("Invalid code", "error");
     }
 
-    function getStripeLink() {
-      const links = stripeLinks[state.selectedService.id];
-      if (!links) return "";
-      return state.activeCode ? links[state.activeCode] : links.normal;
-    }
-
-    function continueToStripe() {
+    function buy(service) {
+      const code = getEnteredCode();
+      selectService(service, false);
       triggerReferralReward();
-      const link = getStripeLink();
-      if (!link || link.includes("PASTE_")) {
-        showToast("Stripe link not added yet.");
+
+      let link = stripeLinks[service]?.normal;
+
+      if (code === "NEW40" && !(service === "performanceBundle" || service === "competitiveBundle")) {
+        syncSelectedCode(service);
+        showMessage("This code only works on bundles $50+", "error");
+        return;
+      }
+
+      if (stripeLinks[service] && stripeLinks[service][code]) {
+        link = stripeLinks[service][code];
+        syncSelectedCode(service);
+        showMessage("Code applied", "success");
+      } else if (code) {
+        syncSelectedCode(service);
+        showMessage("Invalid code", "error");
+      } else {
+        syncSelectedCode(service);
+      }
+
+      if (!link || link.includes("REPLACE_WITH_40_DISCOUNT_LINK")) {
+        showMessage("Payment link not added yet.", "error");
         return;
       }
 
       window.location.href = link;
+    }
+
+    function continueToStripe() {
+      buy(state.selectedService.id);
     }
 
     function getDiscordLoginUrl() {
@@ -1788,11 +2299,11 @@
       const text = input.toLowerCase();
 
       if (text.includes("service") || text.includes("view") || text.includes("price")) {
-        return "Services are Fortnite Coaching for $10 and Rank Carry for $25. PC Optimization is coming soon.";
+        return "Services include Fortnite coaching and carries, PC optimization, Discord setup, extras, and bundles. Pick a card to see the price in checkout.";
       }
 
       if (text.includes("code") || text.includes("loot") || text.includes("discount")) {
-        return "Use LOOTIFY10 for 10% off or LOOTIFYDROP for 15% off before Stripe.";
+        return "Use NEW40 for 40% off qualifying bundles priced at $50+ before Stripe.";
       }
 
       if (text.includes("support") || text.includes("discord") || text.includes("help")) {
@@ -1832,15 +2343,8 @@
     }
 
     function setupEvents() {
-      document.querySelectorAll(".buy-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          selectService(button.dataset.service, false);
-          continueToStripe();
-        });
-      });
-
       $("#applyCodeButton").addEventListener("click", applyLootCode);
-      $("#lootCodeInput").addEventListener("keydown", (event) => {
+      $("#code").addEventListener("keydown", (event) => {
         if (event.key === "Enter") applyLootCode();
       });
       $("#stripeButton").addEventListener("click", continueToStripe);
