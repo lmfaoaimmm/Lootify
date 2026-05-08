@@ -784,14 +784,25 @@
     }
 
     .chat-window {
-      display: none;
+      max-height: 0;
+      opacity: 0;
       overflow: hidden;
-      background: rgba(12, 17, 11, 0.97);
+      pointer-events: none;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #111;
       backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      transform: translateY(12px) scale(0.98);
+      transform-origin: bottom right;
+      transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease;
     }
 
     .chat-window.open {
-      display: block;
+      max-height: 560px;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
     }
 
     .chat-head {
@@ -800,10 +811,12 @@
       justify-content: space-between;
       gap: 12px;
       border-bottom: 1px solid var(--line-soft);
-      padding: 13px;
+      padding: 14px;
+      background: #0b0f0a;
     }
 
     .chat-head span {
+      display: block;
       color: var(--muted);
       font-size: 0.86rem;
     }
@@ -813,7 +826,7 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 10px;
       padding: 13px;
     }
 
@@ -823,6 +836,7 @@
       padding: 10px 12px;
       color: var(--text);
       background: rgba(255, 255, 255, 0.07);
+      animation: chatFadeIn 260ms ease both;
     }
 
     .chat-bubble.user {
@@ -835,16 +849,41 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
-      padding: 0 13px 12px;
+      padding: 0 13px 13px;
     }
 
     .chat-option {
       min-height: 38px;
-      border: 1px solid var(--line-soft);
+      border: 1px solid var(--green);
       border-radius: var(--radius);
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.055);
+      color: #071006;
+      background: var(--green);
+      box-shadow: 0 8px 22px rgba(166, 255, 0, 0.12);
       font-weight: 800;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .chat-option:hover {
+      transform: translateY(-1px);
+      background: #b8ff2e;
+      box-shadow: 0 10px 28px rgba(166, 255, 0, 0.2);
+    }
+
+    .chat-support {
+      align-self: flex-start;
+      min-height: 36px;
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 0 12px;
+      color: #071006;
+      background: var(--green);
+      font-weight: 900;
+      box-shadow: 0 8px 22px rgba(166, 255, 0, 0.14);
+      animation: chatFadeIn 260ms ease both;
+    }
+
+    .chat-support:hover {
+      background: #b8ff2e;
     }
 
     .chat-form {
@@ -868,6 +907,17 @@
       box-shadow: 0 14px 34px rgba(166, 255, 0, 0.2);
       font-size: 1.35rem;
       font-weight: 950;
+    }
+
+    @keyframes chatFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .toast {
@@ -1889,7 +1939,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
-    const launchMode = true;
+    const launchMode = false;
 
     const DISCORD_CLIENT_ID = "1495254927319105576";
     const DISCORD_REDIRECT_URI = "https://lmfaoaimmm.github.io/Lootify/";
@@ -2029,7 +2079,12 @@
       }
     };
 
-    const chatOptions = ["View Services", "Loot Codes", "Support", "Track Order"];
+    const chatOptions = [
+      { label: "Improve FPS", action: "fps" },
+      { label: "How it works", action: "how" },
+      { label: "View services", action: "services" },
+      { label: "Talk to support", action: "support" }
+    ];
 
     const state = {
       selectedService: services.rankedCarry,
@@ -2468,42 +2523,291 @@
       bubble.textContent = message;
       log.appendChild(bubble);
       log.scrollTop = log.scrollHeight;
+      return bubble;
+    }
+
+    function addChatAction(label, action) {
+      const log = $("#chatLog");
+      const button = document.createElement("button");
+      button.className = "chat-support";
+      button.type = "button";
+      button.textContent = label;
+      button.addEventListener("click", () => {
+        handleChatAction(action, label);
+      });
+      log.appendChild(button);
+      log.scrollTop = log.scrollHeight;
+      return button;
+    }
+
+    function addChatActions(actions) {
+      actions.forEach((action) => addChatAction(action.label, action.action));
+    }
+
+    function showSupportHandoff() {
+      addChatBubble("Join our Discord and open a ticket - we'll help you directly.");
+      addChatAction("Open Discord", "openDiscord");
+    }
+
+    function showServices() {
+      addChatBubble("You can compare every option in services.");
+      document.getElementById("services")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function viewRecommendedService(serviceId, message) {
+      addChatBubble(message);
+      selectService(serviceId);
+    }
+
+    function registerChatInteraction() {
+      chatMessageCount += 1;
+      resetChatIdleTimer();
+    }
+
+    function handleChatAction(action, label = "") {
+      const normalizedLabel = label || action;
+
+      if (action === "openDiscord") {
+        window.open(DISCORD_INVITE, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      addChatBubble(normalizedLabel, true);
+      registerChatInteraction();
+
+      window.setTimeout(() => {
+        if (action === "fps") {
+          addChatBubble("Sounds like you'd benefit from optimization. Want me to show the best option?");
+          addChatAction("View Optimization Service", "optimization");
+          maybeShowConversionPrompt();
+          return;
+        }
+
+        if (action === "how") {
+          addChatBubble("Purchase -> join Discord -> we guide you step by step.");
+          addChatAction("Talk to Support", "support");
+          maybeShowConversionPrompt();
+          return;
+        }
+
+        if (action === "optimization") {
+          viewRecommendedService("advancedOptimize", "Advanced Optimization is the best fit for FPS, lag, and smoother performance.");
+          maybeShowConversionPrompt();
+          return;
+        }
+
+        if (action === "coaching") {
+          viewRecommendedService("practiceCoaching", "Practice Coaching is the best place to start if you want to improve.");
+          maybeShowConversionPrompt();
+          return;
+        }
+
+        if (action === "bestOption") {
+          addChatBubble("For most people, the Performance Bundle is the best value.");
+          addChatAction("View Performance Bundle", "performanceBundle");
+          return;
+        }
+
+        if (action === "performanceBundle") {
+          viewRecommendedService("performanceBundle", "I selected the Performance Bundle for you. You can checkout when you're ready.");
+          return;
+        }
+
+        if (action === "services") {
+          showServices();
+          maybeShowConversionPrompt();
+          return;
+        }
+
+        if (action === "support") {
+          showSupportHandoff();
+        }
+      }, getBotDelay());
     }
 
     function chatReply(input) {
       const text = input.toLowerCase();
 
-      if (text.includes("service") || text.includes("view") || text.includes("price")) {
-        return "Services include Fortnite coaching and carries, PC optimization, Discord setup, extras, and bundles. Pick a card to see the price in checkout.";
+      if (text.includes("not sure") || text.includes("unsure") || text.includes("maybe") || text.includes("thinking") || text.includes("later")) {
+        return {
+          message: "Want me to connect you with support? They can help you decide quickly.",
+          actions: [
+            { label: "Show Best Option", action: "bestOption" },
+            { label: "Talk to Support", action: "support" }
+          ]
+        };
       }
 
-      if (text.includes("code") || text.includes("loot") || text.includes("discount")) {
-        return "Use NEW40 for 40% off qualifying bundles priced at $50+ before Stripe.";
+      if (text.includes("wait") || text.includes("discount") || text.includes("deal") || text.includes("launch")) {
+        return {
+          message: "Launch pricing is available right now - good time to grab it.",
+          actions: [
+            { label: "Show Best Option", action: "bestOption" },
+            { label: "View Services", action: "services" }
+          ]
+        };
       }
 
-      if (text.includes("support") || text.includes("discord") || text.includes("help")) {
-        return "Join Discord and open a ticket after payment.";
+      if (text.includes("price") || text.includes("cost") || text.includes("much")) {
+        return {
+          message: "Depends on what you need - you can check all options in services.",
+          actions: [
+            { label: "View Services", action: "services" },
+            { label: "Show Best Option", action: "bestOption" }
+          ]
+        };
       }
 
-      if (text.includes("track") || text.includes("order")) {
-        return "Order updates are handled in your Discord ticket.";
+      if (text.includes("safe") || text.includes("ban") || text.includes("anti-cheat") || text.includes("anticheat")) {
+        return {
+          message: "All optimizations are safe - no risky tweaks or anti-cheat issues.",
+          actions: [{ label: "View Optimization Service", action: "optimization" }]
+        };
       }
 
-      return "I can help with services, Loot Codes, support, and order tracking.";
+      if (text.includes("how") || text.includes("work")) {
+        return {
+          message: "Purchase -> join Discord -> we guide you step by step.",
+          actions: [{ label: "Talk to Support", action: "support" }]
+        };
+      }
+
+      if (text.includes("download")) {
+        return {
+          message: "After purchase, join Discord and we'll guide you from there.",
+          actions: [{ label: "Talk to Support", action: "support" }]
+        };
+      }
+
+      if (text.includes("fps") || text.includes("lag") || text.includes("stutter") || text.includes("low performance") || text.includes("performance") || text.includes("optimize")) {
+        return {
+          message: "Sounds like you'd benefit from optimization. Want me to show the best option?",
+          actions: [{ label: "View Optimization Service", action: "optimization" }]
+        };
+      }
+
+      if (text.includes("improve") || text.includes("practice") || text.includes("get better") || text.includes("better aim") || text.includes("coaching")) {
+        return {
+          message: "That sounds like coaching would help. Want to check the options?",
+          actions: [{ label: "View Coaching", action: "coaching" }]
+        };
+      }
+
+      if (text.includes("service") || text.includes("view") || text.includes("buy") || text.includes("purchase")) {
+        return {
+          message: "You can compare every option in services.",
+          actions: [
+            { label: "View Services", action: "services" },
+            { label: "Show Best Option", action: "bestOption" }
+          ]
+        };
+      }
+
+      if (text.includes("support") || text.includes("discord") || text.includes("help") || text.includes("ticket")) {
+        return {
+          message: "Join our Discord and open a ticket - we'll help you directly.",
+          actions: [{ label: "Open Discord", action: "openDiscord" }]
+        };
+      }
+
+      return {
+        message: "Not sure about that - want me to connect you with support?",
+        actions: [{ label: "Talk to Support", action: "support" }],
+        unknown: true
+      };
+    }
+
+    function getBotDelay() {
+      return 300 + Math.floor(Math.random() * 201);
+    }
+
+    let chatMessageCount = 0;
+    let conversionPromptShown = false;
+    let idlePromptShown = false;
+    let idleTimer = null;
+
+    function resetChatIdleTimer() {
+      window.clearTimeout(idleTimer);
+
+      if (idlePromptShown) return;
+
+      idleTimer = window.setTimeout(() => {
+        if (!$("#chatWindow")?.classList.contains("open")) return;
+        idlePromptShown = true;
+        addChatBubble("Still thinking? I can help you pick or connect you with support.");
+        addChatActions([
+          { label: "Show Best Option", action: "bestOption" },
+          { label: "Talk to Support", action: "support" }
+        ]);
+      }, 12000);
+    }
+
+    function maybeShowConversionPrompt() {
+      if (conversionPromptShown || chatMessageCount < 2) return;
+
+      conversionPromptShown = true;
+      addChatBubble("Want help choosing the best option for you?");
+      addChatActions([
+        { label: "Show Best Option", action: "bestOption" },
+        { label: "Talk to Support", action: "support" }
+      ]);
+    }
+
+    function handleChatMessage(message) {
+      addChatBubble(message, true);
+      registerChatInteraction();
+
+      window.setTimeout(() => {
+        const reply = chatReply(message);
+        addChatBubble(reply.message);
+        if (reply.actions) addChatActions(reply.actions);
+        maybeShowConversionPrompt();
+      }, getBotDelay());
     }
 
     function setupChatbot() {
       const windowEl = $("#chatWindow");
-      $("#chatToggle").addEventListener("click", () => windowEl.classList.toggle("open"));
-      $("#closeChat").addEventListener("click", () => windowEl.classList.remove("open"));
-      $("#chatOptions").innerHTML = chatOptions.map((option) => `<button class="chat-option" type="button">${option}</button>`).join("");
-      addChatBubble("Need help? Pick an option.");
+      let initialized = false;
+
+      function openChat() {
+        windowEl.classList.add("open");
+
+        if (!initialized) {
+          initialized = true;
+          addChatBubble("Need help with FPS, lag, or getting started?");
+          resetChatIdleTimer();
+        }
+      }
+
+      $("#chatToggle").addEventListener("click", () => {
+        if (windowEl.classList.contains("open")) {
+          windowEl.classList.remove("open");
+          window.clearTimeout(idleTimer);
+        } else {
+          openChat();
+        }
+      });
+      $("#closeChat").addEventListener("click", () => {
+        windowEl.classList.remove("open");
+        window.clearTimeout(idleTimer);
+      });
+
+      const optionsEl = $("#chatOptions");
+      optionsEl.innerHTML = "";
+      chatOptions.forEach((option) => {
+        const button = document.createElement("button");
+        button.className = "chat-option";
+        button.type = "button";
+        button.dataset.action = option.action;
+        button.textContent = option.label;
+        optionsEl.appendChild(button);
+      });
 
       $("#chatOptions").addEventListener("click", (event) => {
         const option = event.target.closest(".chat-option");
         if (!option) return;
-        addChatBubble(option.textContent, true);
-        window.setTimeout(() => addChatBubble(chatReply(option.textContent)), 220);
+        resetChatIdleTimer();
+        handleChatAction(option.dataset.action, option.textContent);
       });
 
       $("#chatForm").addEventListener("submit", (event) => {
@@ -2511,9 +2815,8 @@
         const input = $("#chatInput");
         const message = input.value.trim();
         if (!message) return;
-        addChatBubble(message, true);
         input.value = "";
-        window.setTimeout(() => addChatBubble(chatReply(message)), 220);
+        handleChatMessage(message);
       });
     }
 
@@ -2545,7 +2848,7 @@
     //////////////////////////
 
     // SET FIXED LAUNCH TIME (8PM EASTERN)
-    const launchDate = new Date("2026-04-30T20:00:00-04:00");
+    const launchDate = new Date("2026-05-01T18:00:00-04:00");
 
     function updateLaunchCountdown() {
       const now = new Date();
@@ -2597,14 +2900,18 @@
 
     function initMaintenanceSystem() {
       const screen = document.getElementById("maintenance-screen");
+      if (screen) screen.style.display = "none";
+      localStorage.setItem("maintenanceMode", "false");
+      return;
+
       const countdownEl = document.getElementById("countdown");
       const updateText = document.getElementById("update-text");
 
       let maintenanceMode = localStorage.getItem("maintenanceMode");
 
       if (maintenanceMode === null) {
-        localStorage.setItem("maintenanceMode", "true");
-        maintenanceMode = "true";
+        localStorage.setItem("maintenanceMode", "false");
+        maintenanceMode = "false";
       }
 
       if (screen && maintenanceMode === "false") {
